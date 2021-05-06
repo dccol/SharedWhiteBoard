@@ -38,11 +38,12 @@ public class WhiteBoardPanel extends JPanel {
     {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(3));
 
         // Draw every line in lines
         for (Line line: lines)
         {
+            g2d.setStroke(line.getStrokeSize());
+            g2d.setPaint(line.getColour());
             for(int i = 0; i < line.getPoints().size() - 2; i++) {
                 Point p1 = line.getPoints().get(i);
                 Point p2 = line.getPoints().get(i + 1);

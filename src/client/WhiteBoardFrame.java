@@ -16,8 +16,12 @@ public class WhiteBoardFrame extends JFrame {
     private IRemoteWhiteBoard remoteWhiteBoard;
 
     private WhiteBoardPanel whiteBoardPanel;
+
+    // Handle index on state update, will become size()+1
     int index = 0;
-    Line line = new Line(new ArrayList<Point>(), Color.black);
+
+    // Allow client to select colour (buttonListener line.setColour())
+    Line line = new Line(new ArrayList<Point>(), Color.black, new BasicStroke(3));
 
     public WhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard){
 
@@ -25,10 +29,12 @@ public class WhiteBoardFrame extends JFrame {
 
         whiteBoardPanel = new WhiteBoardPanel();
 
+        // Mouse Listeners
         whiteBoardPanel.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
 
+                // Store Points locally for real time updates
                 ArrayList<Point> points = line.getPoints();
 
                 // Add new point to line points
@@ -65,10 +71,16 @@ public class WhiteBoardFrame extends JFrame {
                     remoteException.printStackTrace();
                 }
 
-                line = new Line(new ArrayList<Point>(), Color.black);
+                line = new Line(new ArrayList<Point>(), Color.black, new BasicStroke(3));
                 index ++;
             }
         });
+
+        // Button Listeners to select Colours
+
+        // Button Listeners to select Shapes (Free Line, Straight Line, Circle, Oval, Rectangle, Square)
+
+        // Pixel Size?
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(whiteBoardPanel);
