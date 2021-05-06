@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import Shapes.Line;
 import remote.IRemoteWhiteBoard;
 
 /**
@@ -19,8 +20,8 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
 
     // Implement interface methods
     @Override
-    public int drawLine(ArrayList<Point> points) throws RemoteException {
-        whiteBoardAccess.addLine(points);
+    public int drawLine(Line line) throws RemoteException {
+        whiteBoardAccess.addLine(line);
         return 1;
     }
 

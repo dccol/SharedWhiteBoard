@@ -1,5 +1,7 @@
 package server;
 
+import Shapes.Line;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 public class WhiteBoardAccess {
 
     // WhiteBoard data structure
-    private ArrayList<ArrayList<Point>> lines;
+    private ArrayList<Line> lines;
 
     public WhiteBoardAccess() {
         lines = new ArrayList<>();
@@ -19,13 +21,15 @@ public class WhiteBoardAccess {
 
     // When a user joins the system, retrieve the WhiteBoard state
     // Regularly update user state (event-based)
-    public ArrayList<ArrayList<Point>> getPlaceholder(){
+    public ArrayList<Line> getLines(){
         return this.lines;
     }
 
-    public synchronized void addLine(ArrayList<Point> points){
-        this.lines.add(points);
-        System.out.println(lines);
+    public synchronized void addLine(Line newLine){
+        this.lines.add(newLine);
+        for(Line line : lines){
+            System.out.println(line.getPoints().size());
+        }
     }
     public synchronized void deleteShape(){
 

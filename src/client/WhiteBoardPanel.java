@@ -1,5 +1,7 @@
 package client;
 
+import Shapes.Line;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -7,28 +9,28 @@ import java.util.ArrayList;
 
 public class WhiteBoardPanel extends JPanel {
 
-    private ArrayList<ArrayList<Point>> lines;
+    private ArrayList<Line> lines;
 
     public WhiteBoardPanel(){
 
         this.setPreferredSize(new Dimension(500,500));
-        lines = new ArrayList<ArrayList<Point>>();
+        lines = new ArrayList<>();
 
     }
-    public ArrayList<ArrayList<Point>> getLines(){
+    public ArrayList<Line> getLines(){
         return this.lines;
     }
 
-    public ArrayList<Point> getLinePoints(int index){
+    public Line getLine(int index){
         return this.lines.get(index);
     }
 
-    public void setLinePoints(ArrayList<Point> points, int index){
-        this.lines.set(index, points);
+    public void setLine(Line line, int index){
+        this.lines.set(index, line);
     }
 
-    public void addLine(ArrayList<Point> points){
-        this.lines.add(points);
+    public void addLine(Line line){
+        this.lines.add(line);
     }
 
     // Draw WhiteBoardState
@@ -39,11 +41,11 @@ public class WhiteBoardPanel extends JPanel {
         g2d.setStroke(new BasicStroke(3));
 
         // Draw every line in lines
-        for (ArrayList<Point> points: lines)
+        for (Line line: lines)
         {
-            for(int i = 0; i < points.size() - 2; i++) {
-                Point p1 = points.get(i);
-                Point p2 = points.get(i + 1);
+            for(int i = 0; i < line.getPoints().size() - 2; i++) {
+                Point p1 = line.getPoints().get(i);
+                Point p2 = line.getPoints().get(i + 1);
                 g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
             }
 

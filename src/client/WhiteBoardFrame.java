@@ -1,5 +1,6 @@
 package client;
 
+import Shapes.Line;
 import remote.IRemoteWhiteBoard;
 
 import java.awt.*;
@@ -16,7 +17,7 @@ public class WhiteBoardFrame extends JFrame {
 
     private WhiteBoardPanel whiteBoardPanel;
     int index = 0;
-    ArrayList<Point> points = new ArrayList<>();
+    Line line = new Line(new ArrayList<Point>(), Color.black);
 
     public WhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard){
 
@@ -27,18 +28,26 @@ public class WhiteBoardFrame extends JFrame {
         whiteBoardPanel.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
+
+                ArrayList<Point> points = line.getPoints();
+
+                // Add new point to line points
                 points.add(e.getPoint());
 
+                // Update the lines points
+                line.setPoints(points);
+                System.out.println(line.getPoints());
+
+                // If a new line, add
                 if(points.size() < 2){
-                    whiteBoardPanel.addLine(points);
+                    whiteBoardPanel.addLine(line);
+                    System.out.println("added new line");
                 }
+                // Update the line in the data structure
+                whiteBoardPanel.setLine(line, index);
 
-
-                whiteBoardPanel.getLinePoints(index);
-                whiteBoardPanel.setLinePoints(points, index);
-
-
-                whiteBoardPanel.repaint(); //request Swing to refresh display as soon as it can
+                // Refresh display as soon as it can
+                whiteBoardPanel.repaint();
             }
 
         });
@@ -46,14 +55,17 @@ public class WhiteBoardFrame extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e){
 
+//                // Retrieve Line from data structure
+//                Line sendLine = whiteBoardPanel.getLine(index);
                 // Send update to server
                 try {
-                    int result = remoteWhiteBoard.drawLine(points);
+                    int result = remoteWhiteBoard.drawLine(line);
                     System.out.println(result);
                 } catch (RemoteException remoteException) {
                     remoteException.printStackTrace();
                 }
-                points = new ArrayList<>();
+
+                line = new Line(new ArrayList<Point>(), Color.black);
                 index ++;
             }
         });
