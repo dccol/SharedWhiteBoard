@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -8,22 +9,23 @@ import java.util.ArrayList;
 public class WhiteBoardAccess {
 
     // WhiteBoard data structure
-    private ArrayList<String> placeholder;
+    private ArrayList<ArrayList<Point>> lines;
 
     public WhiteBoardAccess() {
-        // initialise placeholder
+        lines = new ArrayList<>();
     }
 
     // Operations on the whiteboard
 
     // When a user joins the system, retrieve the WhiteBoard state
     // Regularly update user state (event-based)
-    public ArrayList<String> getPlaceholder(){
-        return this.placeholder;
+    public ArrayList<ArrayList<Point>> getPlaceholder(){
+        return this.lines;
     }
 
-    public synchronized void addShape(){
-
+    public synchronized void addLine(ArrayList<Point> points){
+        this.lines.add(points);
+        System.out.println(lines);
     }
     public synchronized void deleteShape(){
 

@@ -9,19 +9,14 @@ public class WhiteBoardClient {
     public static void main(String[] args) {
 
         try {
-            // Launch GUI
-            new WhiteBoardFrame();
             //Connect to the rmiregistry that is running on localhost
             Registry registry = LocateRegistry.getRegistry("localhost");
 
             //Retrieve the stub/proxy for the remote math object from the registry
             IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
 
-
-            //Call methods on the remote object as if it was a local object
-            System.out.println("Client: calling remote methods");
-            int result = remoteWhiteBoard.drawLine();
-            System.out.println(result);
+            // Launch GUI
+            new WhiteBoardFrame(remoteWhiteBoard);
 
         }catch(Exception e) {
             e.printStackTrace();

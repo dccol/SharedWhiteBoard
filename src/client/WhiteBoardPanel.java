@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class WhiteBoardPanel extends JPanel {
 
-    public ArrayList<ArrayList<Point>> lines;
+    private ArrayList<ArrayList<Point>> lines;
 
     public WhiteBoardPanel(){
 
@@ -31,11 +31,14 @@ public class WhiteBoardPanel extends JPanel {
         this.lines.add(points);
     }
 
+    // Draw WhiteBoardState
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(3));
+
+        // Draw every line in lines
         for (ArrayList<Point> points: lines)
         {
             for(int i = 0; i < points.size() - 2; i++) {
