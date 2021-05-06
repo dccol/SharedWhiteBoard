@@ -13,7 +13,11 @@ public class RMIServer {
     public static void main(String[] args)  {
 
         try {
-            IRemoteWhiteBoard remoteWhiteBoard = new RemoteWhiteBoard();
+
+            // Create WhiteBoardAccess object to handle concurrent access to shared resource
+            WhiteBoardAccess whiteBoardAccess = new WhiteBoardAccess();
+
+            IRemoteWhiteBoard remoteWhiteBoard = new RemoteWhiteBoard(whiteBoardAccess);
 
             //Publish the remote object's stub in the registry under the name "WhiteBoard"
             Registry registry = LocateRegistry.getRegistry();

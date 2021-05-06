@@ -9,10 +9,10 @@ import remote.IRemoteWhiteBoard;
  */
 public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhiteBoard {
 
-    private int numberOfComputations;
+    private WhiteBoardAccess whiteBoardAccess;
 
-    protected RemoteWhiteBoard() throws RemoteException {
-        numberOfComputations = 0;
+    protected RemoteWhiteBoard(WhiteBoardAccess whiteBoardAccess) throws RemoteException {
+        this.whiteBoardAccess = whiteBoardAccess;
     }
 
     // Implement interface methods
