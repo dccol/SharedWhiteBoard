@@ -13,12 +13,15 @@ public class WhiteBoardPanel extends JPanel {
 
     public WhiteBoardPanel(){
 
-        this.setPreferredSize(new Dimension(500,500));
+        this.setPreferredSize(new Dimension(1000,500));
         lines = new ArrayList<>();
 
     }
     public ArrayList<Line> getLines(){
         return this.lines;
+    }
+    public void setLines(ArrayList<Line> lines){
+        this.lines = lines;
     }
 
     public Line getLine(int index){
@@ -42,7 +45,7 @@ public class WhiteBoardPanel extends JPanel {
         // Draw every line in lines
         for (Line line: lines)
         {
-            g2d.setStroke(line.getStrokeSize());
+            g2d.setStroke(new BasicStroke(line.getStrokeSize()));
             g2d.setPaint(line.getColour());
             for(int i = 0; i < line.getPoints().size() - 2; i++) {
                 Point p1 = line.getPoints().get(i);

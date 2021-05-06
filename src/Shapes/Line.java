@@ -3,18 +3,18 @@ package Shapes;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Line extends Shape{
+public class Line extends Shape {
 
-    private BasicStroke strokeSize;
-    public Line(ArrayList<Point> points, Color colour, BasicStroke strokeSize) {
+    private int strokeSize;
+    public Line(ArrayList<Point> points, Color colour, int strokeSize) {
         super(points, colour);
         this.strokeSize = strokeSize;
     }
-    public BasicStroke getStrokeSize() {
+    public int getStrokeSize() {
         return strokeSize;
     }
 
-    public void setStrokeSize(BasicStroke strokeSize) {
+    public void setStrokeSize(int strokeSize) {
         this.strokeSize = strokeSize;
     }
 

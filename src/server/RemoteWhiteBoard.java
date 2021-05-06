@@ -51,7 +51,7 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public ArrayList<ArrayList<Point>> requestState() throws RemoteException {
+    public ArrayList<Line> requestState() throws RemoteException {
         return null;
     }
 }

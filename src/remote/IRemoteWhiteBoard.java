@@ -17,6 +17,6 @@ public interface IRemoteWhiteBoard extends Remote {
 
     public int deleteLine() throws RemoteException;
 
-    public ArrayList<ArrayList<Point>> requestState() throws RemoteException;
+    public ArrayList<Line> requestState() throws RemoteException;
 
 }

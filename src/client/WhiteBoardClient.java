@@ -15,6 +15,8 @@ public class WhiteBoardClient {
             //Retrieve the stub/proxy for the remote math object from the registry
             IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
 
+            // Launch Login Dialog
+
             // Launch GUI
             new WhiteBoardFrame(remoteWhiteBoard);
 
