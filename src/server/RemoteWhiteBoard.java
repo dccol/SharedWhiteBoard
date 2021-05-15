@@ -1,5 +1,6 @@
 package server;
 import java.awt.*;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -20,28 +21,42 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
 
     // Implement interface methods
     @Override
-    public int drawLine(Line line) throws RemoteException {
+    public ArrayList<Line> getLines(){
+        return whiteBoardAccess.getLines();
+    }
+
+    @Override
+    public int addLine(Line line) throws RemoteException {
         whiteBoardAccess.addLine(line);
+        System.out.println(whiteBoardAccess.getLines());
+        System.out.println(whiteBoardAccess.getLines().size());
+
+        return whiteBoardAccess.getLines().size()-1;
+    }
+
+    @Override
+    public int updateLine(int id, Line line) throws RemoteException {
+        whiteBoardAccess.updateLine(id, line);
         return 1;
     }
 
     @Override
-    public int drawCircle() throws RemoteException {
+    public int addCircle() throws RemoteException {
         return 0;
     }
 
     @Override
-    public int drawOval() throws RemoteException {
+    public int addOval() throws RemoteException {
         return 0;
     }
 
     @Override
-    public int drawRectangle() throws RemoteException {
+    public int addRectangle() throws RemoteException {
         return 0;
     }
 
     @Override
-    public int drawTriangle() throws RemoteException {
+    public int addTriangle() throws RemoteException {
         return 0;
     }
 

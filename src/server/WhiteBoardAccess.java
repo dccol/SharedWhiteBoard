@@ -14,7 +14,7 @@ public class WhiteBoardAccess {
     private ArrayList<Line> lines;
 
     public WhiteBoardAccess() {
-        lines = new ArrayList<>();
+        this.lines = new ArrayList<>();
     }
 
     // Operations on the whiteboard
@@ -25,11 +25,11 @@ public class WhiteBoardAccess {
         return this.lines;
     }
 
-    public synchronized void addLine(Line newLine){
+    public void addLine(Line newLine){
         this.lines.add(newLine);
-        for(Line line : lines){
-            System.out.println(line.getPoints().size());
-        }
+    }
+    public void updateLine(int id, Line line){
+        this.lines.set(id, line);
     }
     public synchronized void deleteShape(){
 

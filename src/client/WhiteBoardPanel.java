@@ -1,40 +1,44 @@
 package client;
 
 import Shapes.Line;
+import remote.IRemoteWhiteBoard;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class WhiteBoardPanel extends JPanel {
 
-    private ArrayList<Line> lines;
+    private IRemoteWhiteBoard remoteWhiteBoard;
+    //private ArrayList<Line> lines;
 
-    public WhiteBoardPanel(){
+    public WhiteBoardPanel(IRemoteWhiteBoard remoteWhiteBoard){
 
         this.setPreferredSize(new Dimension(1000,500));
-        lines = new ArrayList<>();
+        this.remoteWhiteBoard = remoteWhiteBoard;
+        //lines = new ArrayList<>();
 
     }
-    public ArrayList<Line> getLines(){
-        return this.lines;
-    }
-    public void setLines(ArrayList<Line> lines){
-        this.lines = lines;
-    }
-
-    public Line getLine(int index){
-        return this.lines.get(index);
-    }
-
-    public void setLine(Line line, int index){
-        this.lines.set(index, line);
-    }
-
-    public void addLine(Line line){
-        this.lines.add(line);
-    }
+//    public ArrayList<Line> getLines(){
+//        return this.lines;
+//    }
+//    public void setLines(ArrayList<Line> lines){
+//        this.lines = lines;
+//    }
+//
+//    public Line getLine(int index){
+//        return this.lines.get(index);
+//    }
+//
+//    public void setLine(Line line, int index){
+//        this.lines.set(index, line);
+//    }
+//
+//    public void addLine(Line line){
+//        this.lines.add(line);
+//    }
 
     // Draw WhiteBoardState
     public void paintComponent(Graphics g)
@@ -42,18 +46,22 @@ public class WhiteBoardPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // Draw every line in lines
-        for (Line line: lines)
-        {
-            g2d.setStroke(new BasicStroke(line.getStrokeSize()));
-            g2d.setPaint(line.getColour());
-            for(int i = 0; i < line.getPoints().size() - 2; i++) {
-                Point p1 = line.getPoints().get(i);
-                Point p2 = line.getPoints().get(i + 1);
-                g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+        // Draw all components from shared data storage
+        try {
+            for (Line line : remoteWhiteBoard.getLines()) {
+                g2d.setStroke(new BasicStroke(line.getStrokeSize()));
+                g2d.setPaint(line.getColour());
+                for (int i = 0; i < line.getPoints().size() - 2; i++) {
+                    Point p1 = line.getPoints().get(i);
+                    Point p2 = line.getPoints().get(i + 1);
+                    g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+                }
+
             }
+        }catch(RemoteException e){
 
         }
+
     }
 
 //    public void paint(Graphics g){
