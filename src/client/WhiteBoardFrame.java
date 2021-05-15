@@ -20,8 +20,7 @@ public class WhiteBoardFrame extends JFrame {
 
     private WhiteBoardPanel whiteBoardPanel;
 
-    // Handle index on state update, will become size()+1
-    // Distributed by WhiteBoardAccess
+    // Distributed by WhiteBoardAccess on line insertion
     int id = 0;
 
     // Allow client to select colour (buttonListener line.setColour())
@@ -39,19 +38,14 @@ public class WhiteBoardFrame extends JFrame {
         this.setVisible(true);
 
         // Refresh Listener
-//        Timer timer = new Timer(1000, new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//                try {
-//                    whiteBoardPanel.setLines(remoteWhiteBoard.requestState());
-//                } catch (RemoteException e) {
-//                    e.printStackTrace();
-//                }
-//                whiteBoardPanel.repaint();
-//            }
-//        });
-//        timer.setRepeats(true);
-//        timer.setCoalesce(true);
-//        timer.start();
+        Timer timer = new Timer(500, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                whiteBoardPanel.repaint();
+            }
+        });
+        timer.setRepeats(true);
+        timer.setCoalesce(true);
+        timer.start();
 
         // Mouse Listeners
         whiteBoardPanel.addMouseMotionListener(new MouseAdapter() {
@@ -70,7 +64,6 @@ public class WhiteBoardFrame extends JFrame {
                     System.out.println(line.getPoints());
 
                     // Push update to WhiteBoardAccess
-
                     // If a new line, add
                     if (points.size() < 2) {
                         id = remoteWhiteBoard.addLine(line);
