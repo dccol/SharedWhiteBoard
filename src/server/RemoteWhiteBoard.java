@@ -31,6 +31,12 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
+    public int addStraightLine(StraightLine straightLine) throws RemoteException {
+        whiteBoardAccess.addStraightLine(straightLine);
+        return 1;
+    }
+
+    @Override
     public ArrayList<Rectangle> getRectangles() throws RemoteException {
         return whiteBoardAccess.getRectangles();
     }
@@ -42,9 +48,6 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public int addLine(FreeLine line) throws RemoteException {
         whiteBoardAccess.addLine(line);
-        System.out.println(whiteBoardAccess.getLines());
-        System.out.println(whiteBoardAccess.getLines().size());
-
         return whiteBoardAccess.getLines().size()-1;
     }
 
@@ -65,8 +68,9 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public int addRectangle() throws RemoteException {
-        return 0;
+    public int addRectangle(Rectangle rectangle) throws RemoteException {
+        whiteBoardAccess.addRectangle(rectangle);
+        return 1;
     }
 
     @Override

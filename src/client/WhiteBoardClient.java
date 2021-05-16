@@ -18,7 +18,9 @@ public class WhiteBoardClient {
             // Launch Login Dialog
 
             // Launch GUI
-            new WhiteBoardFrame(remoteWhiteBoard);
+            WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard);
+            frame.run();
+
 
         }catch(Exception e) {
             e.printStackTrace();

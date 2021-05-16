@@ -62,6 +62,14 @@ public class WhiteBoardAccess {
         this.lines.set(id, line);
     }
 
+    public void addStraightLine(StraightLine straightLine){
+        this.straightlines.add(straightLine);
+    }
+
+    public void addRectangle(Rectangle rectangle){
+        this.rectangles.add(rectangle);
+    }
+
 
     public synchronized void addText(){
 

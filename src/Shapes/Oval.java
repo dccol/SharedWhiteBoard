@@ -7,7 +7,7 @@ public class Oval extends Shape{
 
     private Ellipse2D oval;
 
-    public Oval(Color colour, int strokeSize, int fill, Ellipse2D oval) {
+    public Oval(Ellipse2D oval, Color colour, int strokeSize, int fill) {
         super(colour, strokeSize, fill);
         this.oval = oval;
     }

@@ -8,7 +8,7 @@ public class Text extends Shape{
     private int y;
     private String text;
 
-    public Text(Color colour, int strokeSize, int fill, String text, int x, int y) {
+    public Text(String text, int x, int y, Color colour, int strokeSize, int fill) {
         super(colour, strokeSize, fill);
         this.text = text;
         this.x = x;

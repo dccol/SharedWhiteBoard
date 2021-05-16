@@ -17,7 +17,8 @@ public class WhiteBoardPanel extends JPanel {
 
     public WhiteBoardPanel(IRemoteWhiteBoard remoteWhiteBoard){
 
-        this.setPreferredSize(new Dimension(1000,500));
+        this.setPreferredSize(new Dimension(1500,800));
+        this.setBackground(Color.white);
         this.remoteWhiteBoard = remoteWhiteBoard;
         //lines = new ArrayList<>();
 

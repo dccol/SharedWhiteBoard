@@ -19,6 +19,7 @@ public interface IRemoteWhiteBoard extends Remote {
 
     // Straight Line
     public ArrayList<StraightLine> getStraightLines() throws RemoteException;
+    public int addStraightLine(StraightLine straightLineline) throws RemoteException;
     // Circle
     public int addCircle() throws RemoteException;
 
@@ -27,7 +28,7 @@ public interface IRemoteWhiteBoard extends Remote {
 
     // Rectangle
     public ArrayList<Rectangle> getRectangles() throws RemoteException;
-    public int addRectangle() throws RemoteException;
+    public int addRectangle(Rectangle rectangle) throws RemoteException;
 
     // Triangle
     public int addTriangle() throws RemoteException;
