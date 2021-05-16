@@ -25,10 +25,17 @@ public class WhiteBoardFrame extends JFrame {
 
     private String username;
 
+    class UserPanel extends JPanel{
+        public UserPanel(){
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        }
+    }
     private WhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
+    private UserPanel userPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
     private JSlider strokeSizeSlider;
+    private JTextArea userTextArea;
 
     private String currentShape = "FreeLine";
     private Color currentColour;
@@ -68,13 +75,14 @@ public class WhiteBoardFrame extends JFrame {
 
         whiteBoardPanel = new WhiteBoardPanel(remoteWhiteBoard);
         controlPanel = new JPanel();
+        userPanel = new UserPanel();
 
         contentPane.add(whiteBoardPanel, BorderLayout.CENTER);
         contentPane.add(controlPanel, BorderLayout.NORTH);
+        contentPane.add(userPanel, BorderLayout.EAST);
 
         this.pack();
         this.setLocationRelativeTo(null);
-//        this.setVisible(true);
 
         // Refresh Listener
         Timer timer = new Timer(300, new ActionListener() {
@@ -295,6 +303,48 @@ public class WhiteBoardFrame extends JFrame {
         strokeSizeSlider.setMinorTickSpacing(1);
         strokeSizeSlider.setPaintTicks(true);
         strokeSizeSlider.setPaintLabels(true);
+
+        // Fill
+        JToggleButton fillToggle = new JToggleButton("Fill Shape");
+        controlPanel.add(fillToggle);
+        fillToggle.addItemListener(itemEvent ->
+        {
+            // event is generated in button
+            int state = itemEvent.getStateChange();
+
+            // if selected print selected in console
+            if (state == ItemEvent.SELECTED) {
+                rectangle.setFill(1);
+                oval.setFill(1);
+                circle.setFill(1);
+
+            }
+            else {
+                rectangle.setFill(0);
+                oval.setFill(0);
+                circle.setFill(0);
+            }
+        });
+
+
+        // UserPanel
+        JLabel userLabel = new JLabel("Online Users");
+        userLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        userLabel.setAlignmentX( JLabel.LEFT_ALIGNMENT);
+        userPanel.add(userLabel);
+
+        userTextArea = new JTextArea();
+        userTextArea.setFont(userTextArea.getFont().deriveFont(20f));
+        userTextArea.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
+        userPanel.add(userTextArea);
+        try {
+            ArrayList<String> users = remoteWhiteBoard.getUsers();
+            for(String user : users){
+                userTextArea.append(user + "\n");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         this.addWindowListener(new WindowAdapter()
         {

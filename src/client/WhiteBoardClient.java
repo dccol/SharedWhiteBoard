@@ -22,7 +22,12 @@ public class WhiteBoardClient {
             // Check if user available
             int result = remoteWhiteBoard.addUser(username);
             while(result != 1){
-                username = JOptionPane.showInputDialog("Username Taken. Enter a new Username");
+                if(result == 0) {
+                    username = JOptionPane.showInputDialog("Username Taken. Enter a new Username");
+                }
+                else if(result == 2){
+                    username = JOptionPane.showInputDialog("Invalid Username");
+                }
                 result = remoteWhiteBoard.addUser(username);
             }
             // Launch GUI

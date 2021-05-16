@@ -96,6 +96,12 @@ public class WhiteBoardAccess {
         if(users.contains(user)) {
             return 0;
         }
+        else if(user == null){
+            return 2;
+        }
+        else if(user.isEmpty()){
+            return 2;
+        }
         this.users.add(user);
         return 1;
     }
