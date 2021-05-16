@@ -1,8 +1,8 @@
 package server;
 
-import Shapes.Line;
+import Shapes.*;
 
-import java.awt.*;
+import java.awt.geom.*;
 import java.util.ArrayList;
 
 /**
@@ -11,33 +11,63 @@ import java.util.ArrayList;
 public class WhiteBoardAccess {
 
     // WhiteBoard data structure
-    private ArrayList<Line> lines;
+    private ArrayList<FreeLine> lines;
+    private ArrayList<StraightLine> straightlines;
+    private ArrayList<Rectangle> rectangles;
+    private ArrayList<Oval> ovals;
+    private ArrayList<Circle> circles;
+    private ArrayList<Text> text;
 
     public WhiteBoardAccess() {
         this.lines = new ArrayList<>();
+        this.straightlines = new ArrayList<>();
+        this.rectangles = new ArrayList<>();
+        this.ovals = new ArrayList<>();
+        this.circles = new ArrayList<>();
+        this.text = new ArrayList<>();
     }
 
     // Operations on the whiteboard
 
     // When a user joins the system, retrieve the WhiteBoard state
     // Regularly update user state (event-based)
-    public ArrayList<Line> getLines(){
+    public ArrayList<FreeLine> getLines(){
         return this.lines;
     }
 
-    public void addLine(Line newLine){
+    public ArrayList<StraightLine> getStraightlines() {
+        return straightlines;
+    }
+
+    public ArrayList<Rectangle> getRectangles() {
+        return rectangles;
+    }
+
+    public ArrayList<Oval> getOvals() {
+        return ovals;
+    }
+
+    public ArrayList<Circle> getCircles(){
+        return circles;
+    }
+
+    public ArrayList<Text> getText() {
+        return text;
+    }
+
+    public void addLine(FreeLine newLine){
         this.lines.add(newLine);
     }
-    public void updateLine(int id, Line line){
+    public void updateLine(int id, FreeLine line){
         this.lines.set(id, line);
     }
-    public synchronized void deleteShape(){
 
-    }
 
     public synchronized void addText(){
 
     }
+
+    // Optional addition
     public synchronized void deleteText(){
 
     }

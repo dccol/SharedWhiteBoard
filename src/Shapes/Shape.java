@@ -6,19 +6,14 @@ import java.util.ArrayList;
 
 public abstract class Shape implements Serializable {
 
-    private ArrayList<Point> points;
     private Color colour;
+    private int strokeSize;
+    private int fill;
 
-    public Shape(ArrayList<Point> points, Color colour){
-        this.points = points;
+    public Shape(Color colour, int strokeSize, int fill){
         this.colour = colour;
-    }
-    public ArrayList<Point> getPoints() {
-        return points;
-    }
-
-    public void setPoints(ArrayList<Point> points) {
-        this.points = points;
+        this.strokeSize = strokeSize;
+        this.fill = fill;
     }
 
     public Color getColour() {
@@ -27,5 +22,20 @@ public abstract class Shape implements Serializable {
 
     public void setColour(Color colour) {
         this.colour = colour;
+    }
+    public int getStrokeSize() {
+        return strokeSize;
+    }
+
+    public void setStrokeSize(int strokeSize) {
+        this.strokeSize = strokeSize;
+    }
+
+    public int getFill() {
+        return fill;
+    }
+
+    public void setFill(int fill) {
+        this.fill = fill;
     }
 }

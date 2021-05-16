@@ -1,13 +1,14 @@
 package client;
 
-import Shapes.Line;
+import Shapes.FreeLine;
+import Shapes.Rectangle;
+import Shapes.StraightLine;
+import Shapes.Text;
 import remote.IRemoteWhiteBoard;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 public class WhiteBoardPanel extends JPanel {
 
@@ -21,24 +22,6 @@ public class WhiteBoardPanel extends JPanel {
         //lines = new ArrayList<>();
 
     }
-//    public ArrayList<Line> getLines(){
-//        return this.lines;
-//    }
-//    public void setLines(ArrayList<Line> lines){
-//        this.lines = lines;
-//    }
-//
-//    public Line getLine(int index){
-//        return this.lines.get(index);
-//    }
-//
-//    public void setLine(Line line, int index){
-//        this.lines.set(index, line);
-//    }
-//
-//    public void addLine(Line line){
-//        this.lines.add(line);
-//    }
 
     // Draw WhiteBoardState
     public void paintComponent(Graphics g)
@@ -48,7 +31,8 @@ public class WhiteBoardPanel extends JPanel {
 
         // Draw all components from shared data storage
         try {
-            for (Line line : remoteWhiteBoard.getLines()) {
+            // Free lines
+            for (FreeLine line : remoteWhiteBoard.getLines()) {
                 g2d.setStroke(new BasicStroke(line.getStrokeSize()));
                 g2d.setPaint(line.getColour());
                 for (int i = 0; i < line.getPoints().size() - 2; i++) {
@@ -58,6 +42,32 @@ public class WhiteBoardPanel extends JPanel {
                 }
 
             }
+            // Straight lines
+            for (StraightLine line : remoteWhiteBoard.getStraightLines()) {
+                g2d.setStroke(new BasicStroke(line.getStrokeSize()));
+                g2d.setPaint(line.getColour());
+                g2d.draw(line.getLine());
+            }
+            // Rectangles
+            for (Rectangle rectangle : remoteWhiteBoard.getRectangles()) {
+                g2d.setStroke(new BasicStroke(rectangle.getStrokeSize()));
+                g2d.setPaint(rectangle.getColour());
+                if(rectangle.getFill() == 1) {
+                    g2d.fill(rectangle.getRectangle2D());
+                }
+                else {
+                    g2d.draw(rectangle.getRectangle2D());
+                }
+            }
+            // Circles
+
+            // Text
+            for (Text text : remoteWhiteBoard.getText()) {
+                //g2d.setStroke(new BasicStroke(text.getStrokeSize()));
+                //g2d.setPaint(text.getColour());
+                g2d.drawString(text.getText(), text.getX(), text.getY());
+            }
+
         }catch(RemoteException e){
 
         }

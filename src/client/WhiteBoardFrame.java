@@ -1,6 +1,6 @@
 package client;
 
-import Shapes.Line;
+import Shapes.FreeLine;
 import remote.IRemoteWhiteBoard;
 
 import java.awt.*;
@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -24,7 +23,7 @@ public class WhiteBoardFrame extends JFrame {
     int id = 0;
 
     // Allow client to select colour (buttonListener line.setColour())
-    Line line = new Line(new ArrayList<Point>(), Color.black, 3);
+    FreeLine line = new FreeLine(new ArrayList<Point>(), Color.black, 3, 0);
 
     public WhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard){
 
@@ -87,7 +86,7 @@ public class WhiteBoardFrame extends JFrame {
             public void mouseReleased(MouseEvent e){
 
                 // Reset new line
-                line = new Line(new ArrayList<Point>(), Color.black, 3);
+                line = new FreeLine(new ArrayList<Point>(), Color.black, 3, 0);
             }
         });
 

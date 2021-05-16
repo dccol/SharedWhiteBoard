@@ -1,11 +1,12 @@
 package server;
-import java.awt.*;
-import java.rmi.Remote;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-import Shapes.Line;
+import Shapes.*;
 import remote.IRemoteWhiteBoard;
 
 /**
@@ -21,12 +22,25 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
 
     // Implement interface methods
     @Override
-    public ArrayList<Line> getLines(){
+    public ArrayList<FreeLine> getLines(){
         return whiteBoardAccess.getLines();
+    }
+    @Override
+    public ArrayList<StraightLine> getStraightLines() throws RemoteException {
+        return whiteBoardAccess.getStraightlines();
     }
 
     @Override
-    public int addLine(Line line) throws RemoteException {
+    public ArrayList<Rectangle> getRectangles() throws RemoteException {
+        return whiteBoardAccess.getRectangles();
+    }
+    @Override
+    public ArrayList<Text> getText() throws RemoteException {
+        return whiteBoardAccess.getText();
+    }
+
+    @Override
+    public int addLine(FreeLine line) throws RemoteException {
         whiteBoardAccess.addLine(line);
         System.out.println(whiteBoardAccess.getLines());
         System.out.println(whiteBoardAccess.getLines().size());
@@ -35,7 +49,7 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public int updateLine(int id, Line line) throws RemoteException {
+    public int updateLine(int id, FreeLine line) throws RemoteException {
         whiteBoardAccess.updateLine(id, line);
         return 1;
     }
@@ -60,13 +74,10 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
         return 0;
     }
 
+
     @Override
     public int deleteLine() throws RemoteException {
         return 0;
     }
 
-    @Override
-    public ArrayList<Line> requestState() throws RemoteException {
-        return null;
-    }
 }
