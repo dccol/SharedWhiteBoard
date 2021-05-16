@@ -1,13 +1,12 @@
 package client;
 
-import Shapes.FreeLine;
+import Shapes.*;
 import Shapes.Rectangle;
-import Shapes.StraightLine;
-import Shapes.Text;
 import remote.IRemoteWhiteBoard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Shape;
 import java.rmi.RemoteException;
 
 public class WhiteBoardPanel extends JPanel {
@@ -60,8 +59,30 @@ public class WhiteBoardPanel extends JPanel {
                     g2d.draw(rectangle.getRectangle2D());
                 }
             }
+            // Ovals
+            for (Oval oval : remoteWhiteBoard.getOvals()) {
+                g2d.setStroke(new BasicStroke(oval.getStrokeSize()));
+                g2d.setPaint(oval.getColour());
+                if(oval.getFill() == 1) {
+                    g2d.fill(oval.getOval());
+                }
+                else {
+                    g2d.draw(oval.getOval());
+                }
+            }
             // Circles
+            for (SerializableCircle circle : remoteWhiteBoard.getCircles()) {
+                g2d.setStroke(new BasicStroke(circle.getStrokeSize()));
+                g2d.setPaint(circle.getColour());
 
+                if(circle.getFill() == 1) {
+
+                    drawCenteredCircleFill(g2d, (int) circle.getCentreX(), (int) circle.getCentreY(), (int) circle.getRadius());
+                }
+                else {
+                    drawCenteredCircle(g2d, (int) circle.getCentreX(), (int) circle.getCentreY(), (int) circle.getRadius());
+                }
+            }
             // Text
             for (Text text : remoteWhiteBoard.getText()) {
                 //g2d.setStroke(new BasicStroke(text.getStrokeSize()));
@@ -73,6 +94,14 @@ public class WhiteBoardPanel extends JPanel {
 
         }
 
+    }
+    public void drawCenteredCircleFill(Graphics2D g2d, int centreX, int centreY, int radius) {
+        int diameter = 2*radius;
+        g2d.fillOval(centreX - radius, centreY - radius, diameter, diameter);
+    }
+    public void drawCenteredCircle(Graphics2D g2d, int centreX, int centreY, int radius) {
+        int diameter = 2*radius;
+        g2d.drawOval(centreX - radius, centreY - radius, diameter, diameter);
     }
 
 //    public void paint(Graphics g){

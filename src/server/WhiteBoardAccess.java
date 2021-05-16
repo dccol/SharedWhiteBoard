@@ -15,7 +15,7 @@ public class WhiteBoardAccess {
     private ArrayList<StraightLine> straightlines;
     private ArrayList<Rectangle> rectangles;
     private ArrayList<Oval> ovals;
-    private ArrayList<Circle> circles;
+    private ArrayList<SerializableCircle> circles;
     private ArrayList<Text> text;
 
     public WhiteBoardAccess() {
@@ -47,7 +47,7 @@ public class WhiteBoardAccess {
         return ovals;
     }
 
-    public ArrayList<Circle> getCircles(){
+    public ArrayList<SerializableCircle> getCircles(){
         return circles;
     }
 
@@ -70,6 +70,13 @@ public class WhiteBoardAccess {
         this.rectangles.add(rectangle);
     }
 
+    public void addOval(Oval oval){
+        this.ovals.add(oval);
+    }
+
+    public void addCircle(SerializableCircle circle){
+        this.circles.add(circle);
+    }
 
     public synchronized void addText(){
 

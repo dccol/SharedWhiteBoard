@@ -130,10 +130,48 @@ public class WhiteBoardFrame extends JFrame {
                             }
                             break;
                         case "Oval":
+                            // If the oval already has point, height and width, reset and specify its start point
+                            if(oval.getIsComplete() == 1) {
+                                oval.getOval().setFrame(e.getX(), e.getY(), 100, 100);
+                                oval.setIsComplete(0);
+                            }
+                            // If the oval is incomplete, update the height and width and push to WhiteBoardAccess
+                            else if(oval.getIsComplete() == 0){
 
+                                /** TO DO FIX FLIP RECTANGLE **/
+                                Point2D startPoint = oval.getOval().getBounds().getLocation();
+                                oval.getOval().setFrame(startPoint.getX(), startPoint.getY(),
+                                        Math.abs(e.getX()-startPoint.getX()), Math.abs(e.getY()-startPoint.getY()));
+                                remoteWhiteBoard.addOval(oval);
+                                oval.setIsComplete(1);
+                            }
                             break;
                         case "Circle":
+                            // If the circle already has centre point and radius, reset and specify its centre point
+                            if(circle.getIsComplete() == 1) {
+                                circle.getCircle().setCenterX(e.getX());
+                                circle.getCircle().setCenterY(e.getY());
+                                circle.setIsComplete(0);
+                            }
+                            // If the circle is incomplete, update the radius and push to WhiteBoardAccess
+                            else if(circle.getIsComplete() == 0){
 
+                                double radius = Math.sqrt(Math.pow((e.getX() - circle.getCircle().getCenterX()), 2) +
+                                        Math.pow((e.getY() - circle.getCircle().getCenterY()), 2));
+                                circle.getCircle().setRadius(radius);
+
+                                // Convert to serializable form
+                                SerializableCircle serializableCircle = new SerializableCircle(
+                                        circle.getCircle().getCenterX(),
+                                        circle.getCircle().getCenterY(),
+                                        circle.getCircle().getRadius(),
+                                        circle.getColour(),
+                                        circle.getStrokeSize(),
+                                        circle.getFill()
+                                );
+                                remoteWhiteBoard.addCircle(serializableCircle);
+                                circle.setIsComplete(1);
+                            }
                             break;
                         case "Text":
 

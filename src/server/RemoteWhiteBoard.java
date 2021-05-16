@@ -31,14 +31,16 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public int addStraightLine(StraightLine straightLine) throws RemoteException {
-        whiteBoardAccess.addStraightLine(straightLine);
-        return 1;
-    }
-
-    @Override
     public ArrayList<Rectangle> getRectangles() throws RemoteException {
         return whiteBoardAccess.getRectangles();
+    }
+    @Override
+    public ArrayList<Oval> getOvals() throws RemoteException {
+        return whiteBoardAccess.getOvals();
+    }
+    @Override
+    public ArrayList<SerializableCircle> getCircles() throws RemoteException {
+        return whiteBoardAccess.getCircles();
     }
     @Override
     public ArrayList<Text> getText() throws RemoteException {
@@ -57,16 +59,12 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
         return 1;
     }
 
-    @Override
-    public int addCircle() throws RemoteException {
-        return 0;
-    }
 
     @Override
-    public int addOval() throws RemoteException {
-        return 0;
+    public int addStraightLine(StraightLine straightLine) throws RemoteException {
+        whiteBoardAccess.addStraightLine(straightLine);
+        return 1;
     }
-
     @Override
     public int addRectangle(Rectangle rectangle) throws RemoteException {
         whiteBoardAccess.addRectangle(rectangle);
@@ -74,10 +72,21 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
+    public int addOval(Oval oval) throws RemoteException {
+        whiteBoardAccess.addOval(oval);
+        return 1;
+    }
+
+    @Override
+    public int addCircle(SerializableCircle circle) throws RemoteException {
+        whiteBoardAccess.addCircle(circle);
+        return 1;
+    }
+
+    @Override
     public int addTriangle() throws RemoteException {
         return 0;
     }
-
 
     @Override
     public int deleteLine() throws RemoteException {

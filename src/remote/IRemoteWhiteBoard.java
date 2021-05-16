@@ -20,15 +20,18 @@ public interface IRemoteWhiteBoard extends Remote {
     // Straight Line
     public ArrayList<StraightLine> getStraightLines() throws RemoteException;
     public int addStraightLine(StraightLine straightLineline) throws RemoteException;
-    // Circle
-    public int addCircle() throws RemoteException;
 
     // Oval
-    public int addOval() throws RemoteException;
+    public ArrayList<Oval> getOvals() throws RemoteException;
+    public int addOval(Oval oval) throws RemoteException;
 
     // Rectangle
     public ArrayList<Rectangle> getRectangles() throws RemoteException;
     public int addRectangle(Rectangle rectangle) throws RemoteException;
+
+    // Circle
+    public ArrayList<SerializableCircle> getCircles() throws RemoteException;
+    public int addCircle(SerializableCircle circle) throws RemoteException;
 
     // Triangle
     public int addTriangle() throws RemoteException;
