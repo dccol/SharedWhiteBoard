@@ -1,21 +1,32 @@
-package client;
+package server;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
+import client.WhiteBoardFrame;
 import remote.IRemoteWhiteBoard;
 
 import javax.swing.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-/** TO DO: Username, List of Users, Manager, **/
-public class WhiteBoardClient {
-    public static void main(String[] args) {
+
+/**
+ * Creates an instance of the RemoteWhiteBoard class and
+ * publishes it in the rmiregistry
+ */
+public class CreateWhiteBoard {
+
+    public static void main(String[] args)  {
 
         try {
-            //Connect to the rmiregistry that is running on localhost
-            Registry registry = LocateRegistry.getRegistry("localhost");
 
-            //Retrieve the stub/proxy for the remote math object from the registry
-            IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
+            // Create WhiteBoardAccess object to handle concurrent access to shared resource
+            WhiteBoardAccess whiteBoardAccess = new WhiteBoardAccess();
 
+            IRemoteWhiteBoard remoteWhiteBoard = new RemoteWhiteBoard(whiteBoardAccess);
+
+            //Publish the remote object's stub in the registry under the name "WhiteBoard"
+            Registry registry = LocateRegistry.getRegistry();
+            registry.bind("WhiteBoard", remoteWhiteBoard);
+
+            System.out.println("WhiteBoard server ready");
             // Launch Login Dialog
             String username = JOptionPane.showInputDialog("Username");
 
@@ -34,8 +45,7 @@ public class WhiteBoardClient {
             WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard, username);
             frame.run();
 
-
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

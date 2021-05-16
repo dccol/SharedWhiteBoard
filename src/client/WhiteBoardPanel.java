@@ -90,8 +90,9 @@ public class WhiteBoardPanel extends JPanel {
             }
 
         }catch(RemoteException e){
-            JOptionPane.showMessageDialog(this,
-                    "An error has occurred and the connection ahs been lost. Please restart the server");
+//            JOptionPane.showMessageDialog(this,
+//                    "The Host and closed the session. Exiting");
+            System.exit(0);
         }
 
     }

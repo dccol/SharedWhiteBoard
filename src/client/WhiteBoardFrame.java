@@ -84,7 +84,41 @@ public class WhiteBoardFrame extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
 
+        // UserPanel
+        JLabel userLabel = new JLabel("Online Users");
+        userLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        userLabel.setAlignmentX( JLabel.LEFT_ALIGNMENT);
+        userPanel.add(userLabel);
+
+        userTextArea = new JTextArea();
+        userTextArea.setFont(userTextArea.getFont().deriveFont(20f));
+        userTextArea.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
+        userPanel.add(userTextArea);
+        try {
+            ArrayList<String> users = remoteWhiteBoard.getUsers();
+            for(String user : users){
+                userTextArea.append(user + "\n");
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         // Refresh Listener
+        Timer timerUsers = new Timer(5000, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    ArrayList<String> users = remoteWhiteBoard.getUsers();
+                    userTextArea.setText(null);
+                    for(String user : users){
+                        userTextArea.append(user + "\n");
+                    }
+                } catch (RemoteException e) {
+//                    JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Exiting");
+                }
+            }
+        });
+        timerUsers.setRepeats(true);
+        timerUsers.setCoalesce(true);
+        timerUsers.start();
         Timer timer = new Timer(300, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 whiteBoardPanel.repaint();
@@ -326,26 +360,6 @@ public class WhiteBoardFrame extends JFrame {
             }
         });
 
-
-        // UserPanel
-        JLabel userLabel = new JLabel("Online Users");
-        userLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        userLabel.setAlignmentX( JLabel.LEFT_ALIGNMENT);
-        userPanel.add(userLabel);
-
-        userTextArea = new JTextArea();
-        userTextArea.setFont(userTextArea.getFont().deriveFont(20f));
-        userTextArea.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
-        userPanel.add(userTextArea);
-        try {
-            ArrayList<String> users = remoteWhiteBoard.getUsers();
-            for(String user : users){
-                userTextArea.append(user + "\n");
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
         this.addWindowListener(new WindowAdapter()
         {
             @Override
@@ -354,7 +368,7 @@ public class WhiteBoardFrame extends JFrame {
                 try {
                     remoteWhiteBoard.removeUser(username);
                 } catch (RemoteException remoteException) {
-                    JOptionPane.showMessageDialog(contentPane, "Error sending message");
+//                    JOptionPane.showMessageDialog(contentPane, "Lost Connection");
                 }
                 System.out.println("Closed");
                 e.getWindow().dispose();
