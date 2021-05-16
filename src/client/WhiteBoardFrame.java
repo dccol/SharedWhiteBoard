@@ -5,14 +5,14 @@ import Shapes.Rectangle;
 import remote.IRemoteWhiteBoard;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -23,12 +23,16 @@ public class WhiteBoardFrame extends JFrame {
 
     private IRemoteWhiteBoard remoteWhiteBoard;
 
+    private String username;
+
     private WhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
+    private JSlider strokeSizeSlider;
 
     private String currentShape = "FreeLine";
     private Color currentColour;
+    private int currentStrokeSize;
 
     // Distributed by WhiteBoardAccess on line insertion
     int id = 0;
@@ -52,11 +56,12 @@ public class WhiteBoardFrame extends JFrame {
         }
     }
 
-    public WhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard){
+    public WhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard, String username){
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.remoteWhiteBoard = remoteWhiteBoard;
+        this.username = username;
 
         Container contentPane = this.getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -268,6 +273,42 @@ public class WhiteBoardFrame extends JFrame {
             currentShape = "Text";
         });
 
-        // Pixel Size?
+        // StrokeSize
+        JSeparator sep = new JSeparator();
+        sep.setOrientation(SwingConstants.VERTICAL);
+        sep.setPreferredSize(new Dimension(10, 50));
+        controlPanel.add(sep);
+
+        strokeSizeSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, 3);
+        JLabel sliderLabel = new JLabel("Line Thickness");
+        controlPanel.add(sliderLabel);
+        controlPanel.add(strokeSizeSlider);
+        strokeSizeSlider.addChangeListener(arg0 -> {
+            currentStrokeSize = strokeSizeSlider.getValue();
+            line.setStrokeSize(currentStrokeSize);
+            straightLine.setStrokeSize(currentStrokeSize);
+            rectangle.setStrokeSize(currentStrokeSize);
+            oval.setStrokeSize(currentStrokeSize);
+            circle.setStrokeSize(currentStrokeSize);
+        });
+        strokeSizeSlider.setMajorTickSpacing(9);
+        strokeSizeSlider.setMinorTickSpacing(1);
+        strokeSizeSlider.setPaintTicks(true);
+        strokeSizeSlider.setPaintLabels(true);
+
+        this.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                try {
+                    remoteWhiteBoard.removeUser(username);
+                } catch (RemoteException remoteException) {
+                    JOptionPane.showMessageDialog(contentPane, "Error sending message");
+                }
+                System.out.println("Closed");
+                e.getWindow().dispose();
+            }
+        });
     }
 }

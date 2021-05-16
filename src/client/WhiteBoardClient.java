@@ -2,9 +2,10 @@ package client;
 
 import remote.IRemoteWhiteBoard;
 
+import javax.swing.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-
+/** TO DO: Username, List of Users, Manager, **/
 public class WhiteBoardClient {
     public static void main(String[] args) {
 
@@ -16,9 +17,16 @@ public class WhiteBoardClient {
             IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
 
             // Launch Login Dialog
+            String username = JOptionPane.showInputDialog("Username");
 
+            // Check if user available
+            int result = remoteWhiteBoard.addUser(username);
+            while(result != 1){
+                username = JOptionPane.showInputDialog("Username Taken. Enter a new Username");
+                result = remoteWhiteBoard.addUser(username);
+            }
             // Launch GUI
-            WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard);
+            WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard, username);
             frame.run();
 
 

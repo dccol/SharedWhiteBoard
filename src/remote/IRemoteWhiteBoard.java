@@ -11,6 +11,11 @@ import java.util.ArrayList;
 
 public interface IRemoteWhiteBoard extends Remote {
 
+    // User
+    public ArrayList<String> getUsers() throws RemoteException;
+    public int addUser(String user) throws RemoteException;
+    public int removeUser(String user) throws RemoteException;
+
     // FreeLines
     public ArrayList<FreeLine> getLines() throws RemoteException;
     public int addLine(FreeLine line) throws RemoteException;

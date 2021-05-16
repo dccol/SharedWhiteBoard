@@ -20,6 +20,21 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
         this.whiteBoardAccess = whiteBoardAccess;
     }
 
+    @Override
+    public ArrayList<String> getUsers() throws RemoteException {
+        return whiteBoardAccess.getUsers();
+    }
+
+    @Override
+    public int addUser(String user) throws RemoteException {
+        return whiteBoardAccess.addUser(user);
+    }
+
+    @Override
+    public int removeUser(String user) throws RemoteException {
+        return whiteBoardAccess.removeUser(user);
+    }
+
     // Implement interface methods
     @Override
     public ArrayList<FreeLine> getLines(){

@@ -85,11 +85,13 @@ public class WhiteBoardPanel extends JPanel {
             }
             // Text
             for (Text text : remoteWhiteBoard.getText()) {
+                /** TO DO: Font size, bold, underline **/
                 g2d.drawString(text.getText(), text.getX(), text.getY());
             }
 
         }catch(RemoteException e){
-
+            JOptionPane.showMessageDialog(this,
+                    "An error has occurred and the connection ahs been lost. Please restart the server");
         }
 
     }

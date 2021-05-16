@@ -18,6 +18,9 @@ public class WhiteBoardAccess {
     private ArrayList<SerializableCircle> circles;
     private ArrayList<Text> text;
 
+    // Users
+    private ArrayList<String> users;
+
     public WhiteBoardAccess() {
         this.lines = new ArrayList<>();
         this.straightlines = new ArrayList<>();
@@ -25,12 +28,14 @@ public class WhiteBoardAccess {
         this.ovals = new ArrayList<>();
         this.circles = new ArrayList<>();
         this.text = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
     // Operations on the whiteboard
 
-    // When a user joins the system, retrieve the WhiteBoard state
-    // Regularly update user state (event-based)
+    public ArrayList<String> getUsers(){
+        return this.users;
+    }
     public ArrayList<FreeLine> getLines(){
         return this.lines;
     }
@@ -87,4 +92,16 @@ public class WhiteBoardAccess {
     public synchronized void deleteText(){
 
     }
+    public int addUser(String user){
+        if(users.contains(user)) {
+            return 0;
+        }
+        this.users.add(user);
+        return 1;
+    }
+    public int removeUser(String user){
+        this.users.remove(user);
+        return 1;
+    }
+
 }
