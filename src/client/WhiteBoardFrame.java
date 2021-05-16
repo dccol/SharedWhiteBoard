@@ -174,7 +174,11 @@ public class WhiteBoardFrame extends JFrame {
                             }
                             break;
                         case "Text":
-
+                            String input = JOptionPane.showInputDialog("Hello");
+                            text.setText(input);
+                            text.setX(e.getX());
+                            text.setY(e.getY());
+                            remoteWhiteBoard.addText(text);
                             break;
                         default:
                             System.out.println("Error");

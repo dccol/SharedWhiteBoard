@@ -33,12 +33,10 @@ public interface IRemoteWhiteBoard extends Remote {
     public ArrayList<SerializableCircle> getCircles() throws RemoteException;
     public int addCircle(SerializableCircle circle) throws RemoteException;
 
-    // Triangle
-    public int addTriangle() throws RemoteException;
-
     // Text
     public ArrayList<Text> getText() throws RemoteException;
+    public int addText(Text text) throws RemoteException;
 
-
-
+    // Triangle
+    public int addTriangle() throws RemoteException;
 }

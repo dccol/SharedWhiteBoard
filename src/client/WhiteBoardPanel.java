@@ -85,8 +85,6 @@ public class WhiteBoardPanel extends JPanel {
             }
             // Text
             for (Text text : remoteWhiteBoard.getText()) {
-                //g2d.setStroke(new BasicStroke(text.getStrokeSize()));
-                //g2d.setPaint(text.getColour());
                 g2d.drawString(text.getText(), text.getX(), text.getY());
             }
 

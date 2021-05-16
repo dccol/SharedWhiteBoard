@@ -55,6 +55,7 @@ public class WhiteBoardAccess {
         return text;
     }
 
+    /** TO DO SYNCHRONOUS IN NEEDED **/
     public void addLine(FreeLine newLine){
         this.lines.add(newLine);
     }
@@ -78,8 +79,8 @@ public class WhiteBoardAccess {
         this.circles.add(circle);
     }
 
-    public synchronized void addText(){
-
+    public void addText(Text text){
+        this.text.add(text);
     }
 
     // Optional addition
