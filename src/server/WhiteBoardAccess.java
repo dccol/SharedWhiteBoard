@@ -115,9 +115,11 @@ public class WhiteBoardAccess {
     }
 
     public int updateUserStatus(User user){
-        user.setStatus(1);
-        int index = this.users.indexOf(user);
-        this.users.set(index, user);
+        for(User user1 : users){
+            if(user1.getUsername().equals(user.getUsername())){
+                user1.setStatus(1);
+            }
+        }
         return 1;
     }
 

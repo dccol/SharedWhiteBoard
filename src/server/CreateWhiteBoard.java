@@ -21,11 +21,13 @@ public class CreateWhiteBoard {
             // Create WhiteBoardAccess object to handle concurrent access to shared resource
             WhiteBoardAccess whiteBoardAccess = new WhiteBoardAccess();
 
-            IRemoteWhiteBoard remoteWhiteBoard = new RemoteWhiteBoard(whiteBoardAccess);
+            IRemoteWhiteBoard newRemoteWhiteBoard = new RemoteWhiteBoard(whiteBoardAccess);
 
             //Publish the remote object's stub in the registry under the name "WhiteBoard"
-            Registry registry = LocateRegistry.getRegistry();
-            registry.bind("WhiteBoard", remoteWhiteBoard);
+            Registry registry = LocateRegistry.getRegistry("localhost");
+            registry.bind("WhiteBoard", newRemoteWhiteBoard);
+
+            IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
 
             System.out.println("WhiteBoard server ready");
             // Launch Login Dialog
@@ -44,7 +46,7 @@ public class CreateWhiteBoard {
 //                result = remoteWhiteBoard.addUser(manager);
 //            }
             // Launch GUI
-            WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard, manager);
+            ManagerWhiteBoardFrame frame = new ManagerWhiteBoardFrame(remoteWhiteBoard, manager);
             frame.run();
 
         } catch (Exception e) {

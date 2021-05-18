@@ -3,6 +3,7 @@ package server;
 import Shapes.*;
 import Shapes.Rectangle;
 import client.User;
+import client.WhiteBoardPanel;
 import remote.IRemoteWhiteBoard;
 
 import java.awt.*;
@@ -29,7 +30,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
     }
-    private ManagerWhiteBoardPanel whiteBoardPanel;
+    private WhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
     private UserPanel userPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
@@ -72,7 +73,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
         Container contentPane = this.getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        whiteBoardPanel = new ManagerWhiteBoardPanel(remoteWhiteBoard);
+        whiteBoardPanel = new WhiteBoardPanel(remoteWhiteBoard);
         controlPanel = new JPanel();
         userPanel = new UserPanel();
 
@@ -114,7 +115,8 @@ public class ManagerWhiteBoardFrame extends JFrame {
                         if(user1.getStatus() != 1){
                             int input = JOptionPane.showConfirmDialog(contentPane, "Accept User: "+ user1.getUsername() + "?");
                             if(input == 0) {
-                                remoteWhiteBoard.updateUserStatus(user1);
+                                int result = remoteWhiteBoard.updateUserStatus(user1);
+                                System.out.println(result);
                             }
                         }
                         userTextArea.append(user1.getUsername() + "\n");

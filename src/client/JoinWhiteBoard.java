@@ -31,7 +31,7 @@ public class JoinWhiteBoard {
                 result = remoteWhiteBoard.addUser(newUser);
             }
             // Wait for manager to accept user
-            while(newUser.getStatus()!=1){
+            while(newUser.getStatus() != 1){
                 newUser = remoteWhiteBoard.getUserByUsername(newUser);
             }
             // Launch GUI
