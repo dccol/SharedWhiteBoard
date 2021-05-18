@@ -113,8 +113,17 @@ public class WhiteBoardFrame extends JFrame {
                     // If connection has been lost stop the timer
                     ArrayList<User> users = remoteWhiteBoard.getUsers();
                     userTextArea.setText(null);
+                    int authorized = 0;
                     for(User user1 : users){
+                        if(user1.getUsername().equals(user.getUsername())){
+                            authorized = 1;
+                        }
                         userTextArea.append(user1.getUsername() + "\n");
+                    }
+                    // If the user is no longer in the list of users. Inform them they have been banned and exit
+                    if(authorized == 0){
+                        JOptionPane.showMessageDialog(contentPane, "You have been banned. Goodbye :)");
+                        System.exit(0);
                     }
                 } catch (RemoteException e) {
                     timerUsers.stop();
@@ -129,6 +138,7 @@ public class WhiteBoardFrame extends JFrame {
         Timer timer = new Timer(300, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 whiteBoardPanel.repaint();
+                // Check if still
             }
         });
         timer.setRepeats(true);
@@ -229,10 +239,12 @@ public class WhiteBoardFrame extends JFrame {
                             break;
                         case "Text":
                             String input = JOptionPane.showInputDialog("Enter text to display here");
-                            text.setText(input);
-                            text.setX(e.getX());
-                            text.setY(e.getY());
-                            remoteWhiteBoard.addText(text);
+                            if(input != null) {
+                                text.setText(input);
+                                text.setX(e.getX());
+                                text.setY(e.getY());
+                                remoteWhiteBoard.addText(text);
+                            }
                             break;
                         default:
                             System.out.println("Error");

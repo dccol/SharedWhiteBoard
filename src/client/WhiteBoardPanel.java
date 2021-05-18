@@ -90,7 +90,7 @@ public class WhiteBoardPanel extends JPanel {
             }
 
         }catch(RemoteException e){
-            e.printStackTrace();
+            System.out.println("Lost connection to the host");
         }
 
     }

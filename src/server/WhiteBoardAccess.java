@@ -124,8 +124,16 @@ public class WhiteBoardAccess {
     }
 
     public int removeUser(User user){
-        this.users.remove(user);
+        users.removeIf(user1 -> user1.getUsername().equals(user.getUsername()));
         return 1;
     }
 
+    public void reset(){
+        this.lines = new ArrayList<>();
+        this.straightlines = new ArrayList<>();
+        this.rectangles = new ArrayList<>();
+        this.ovals = new ArrayList<>();
+        this.circles = new ArrayList<>();
+        this.text = new ArrayList<>();
+    }
 }

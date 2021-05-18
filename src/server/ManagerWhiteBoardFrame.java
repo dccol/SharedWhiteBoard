@@ -33,7 +33,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
     private WhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
     private UserPanel userPanel;
-    private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
+    private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn, banBtn, clearBtn;
     private JSlider strokeSizeSlider;
     private JTextArea userTextArea;
 
@@ -103,6 +103,30 @@ public class ManagerWhiteBoardFrame extends JFrame {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        banBtn = new JButton("Manage users");
+        userPanel.add(banBtn);
+        banBtn.addActionListener(arg0 -> {
+            try {
+                ArrayList<User> users = remoteWhiteBoard.getUsers();
+                ArrayList<String> usernames = new ArrayList<>();
+                for(User user1 : users){
+                    usernames.add(user1.getUsername());
+                }
+                Object[] options = usernames.toArray();
+                String kickUsername = (String) JOptionPane.showInputDialog(
+                        null, "Ban a user", "Manage users", JOptionPane.QUESTION_MESSAGE, null, options,
+                        users.get(users.size()-1).getUsername());
+
+                // Kick the user
+                User kickUser = new User(kickUsername, 0);
+                remoteWhiteBoard.removeUser(kickUser);
+            }
+            catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+
         // Refresh Listener
         Timer timerUsers = new Timer(5000, null);
         timerUsers.addActionListener(new ActionListener() {
@@ -234,10 +258,12 @@ public class ManagerWhiteBoardFrame extends JFrame {
                             break;
                         case "Text":
                             String input = JOptionPane.showInputDialog("Enter text to display here");
-                            text.setText(input);
-                            text.setX(e.getX());
-                            text.setY(e.getY());
-                            remoteWhiteBoard.addText(text);
+                            if(input != null) {
+                                text.setText(input);
+                                text.setX(e.getX());
+                                text.setY(e.getY());
+                                remoteWhiteBoard.addText(text);
+                            }
                             break;
                         default:
                             System.out.println("Error");
@@ -283,6 +309,16 @@ public class ManagerWhiteBoardFrame extends JFrame {
             }
         });
 
+        // Clear the WhiteBoard
+        clearBtn = new JButton("Clear");
+        controlPanel.add(clearBtn);
+        clearBtn.addActionListener(arg0 -> {
+            try {
+                remoteWhiteBoard.clear();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
         // Button Listeners to select Colours
         colourBtn = new JButton("Select Colour");
         controlPanel.add(colourBtn);

@@ -45,6 +45,6 @@ public interface IRemoteWhiteBoard extends Remote {
     public ArrayList<Text> getText() throws RemoteException;
     public int addText(Text text) throws RemoteException;
 
-    // Triangle
-    public int addTriangle() throws RemoteException;
+    // Clear
+    public void clear() throws RemoteException;
 }

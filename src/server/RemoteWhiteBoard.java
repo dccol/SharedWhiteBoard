@@ -115,8 +115,8 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public int addTriangle() throws RemoteException {
-        return 0;
+    public void clear() throws RemoteException {
+        whiteBoardAccess.reset();
     }
 
     @Override
