@@ -129,15 +129,17 @@ public class WhiteBoardFrame extends JFrame {
                     }
                 } catch (RemoteException e) {
                     timerUsers.stop();
-                    JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Click here to exit.");
-                    System.exit(0);
+//                    JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Click here to exit.");
+//                    System.exit(0);
                 }
             }
         });
         timerUsers.setRepeats(true);
         timerUsers.setCoalesce(true);
         timerUsers.start();
-        Timer timer = new Timer(300, new ActionListener() {
+
+        Timer timer = new Timer(300, null);
+        timer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 whiteBoardPanel.repaint();
 
@@ -150,7 +152,9 @@ public class WhiteBoardFrame extends JFrame {
                     }
 
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    timer.stop();
+                    JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Click here to exit.");
+                    System.exit(0);
                 }
             }
         });
@@ -396,6 +400,7 @@ public class WhiteBoardFrame extends JFrame {
         // ChatBox Panel
         chatWindow = new JTextArea();
         chatWindow.setPreferredSize(new Dimension(500, 100));
+        chatWindow.setFont(chatWindow.getFont().deriveFont(14f));
         chatBoxPanel.add(chatWindow);
         JScrollPane scrollPaneChatBox = new JScrollPane( chatWindow );
 //        scrollPaneChatBox.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -404,8 +409,12 @@ public class WhiteBoardFrame extends JFrame {
         chatWindow.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
         JTextField inputField = new JTextField();
-        inputField.setPreferredSize(new Dimension(300, 20));
+        inputField.setPreferredSize(new Dimension(300, 30));
         chatBoxPanel.add(inputField);
+        JScrollPane scrollPaneInputField = new JScrollPane( inputField );
+        scrollPaneChatBox.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//        scrollPaneInputField.setPreferredSize(new Dimension(300, 50));
+        chatBoxPanel.add(scrollPaneInputField);
 
         JButton sendBtn = new JButton("Send");
         chatBoxPanel.add(sendBtn);
@@ -419,6 +428,7 @@ public class WhiteBoardFrame extends JFrame {
                 e.printStackTrace();
             }
         });
+
         this.addWindowListener(new WindowAdapter()
         {
             @Override

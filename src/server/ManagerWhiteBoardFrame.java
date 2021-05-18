@@ -437,6 +437,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
         // ChatBox Panel
         chatWindow = new JTextArea();
         chatWindow.setPreferredSize(new Dimension(500, 100));
+        chatWindow.setFont(chatWindow.getFont().deriveFont(14f));
         chatBoxPanel.add(chatWindow);
         JScrollPane scrollPaneChatBox = new JScrollPane( chatWindow );
 //        scrollPaneChatBox.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -445,8 +446,12 @@ public class ManagerWhiteBoardFrame extends JFrame {
         chatWindow.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
         JTextField inputField = new JTextField();
-        inputField.setPreferredSize(new Dimension(300, 20));
+        inputField.setPreferredSize(new Dimension(300, 30));
         chatBoxPanel.add(inputField);
+        JScrollPane scrollPaneInputField = new JScrollPane( inputField );
+        scrollPaneChatBox.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//        scrollPaneInputField.setPreferredSize(new Dimension(300, 50));
+        chatBoxPanel.add(scrollPaneInputField);
 
         JButton sendBtn = new JButton("Send");
         chatBoxPanel.add(sendBtn);

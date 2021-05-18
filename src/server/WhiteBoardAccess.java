@@ -76,13 +76,9 @@ public class WhiteBoardAccess {
     /** TO DO SYNCHRONOUS IN NEEDED **/
     public void addLine(FreeLine newLine){
         this.lines.add(newLine);
-        System.out.println(lines);
-        System.out.println(lines.size());
     }
     public void updateLine(int id, FreeLine line){
         this.lines.set(id, line);
-        System.out.println("Sent: " + line.getPoints().size());
-        System.out.println("Saved: " + lines.get(id).getPoints().size());
     }
 
     public void addStraightLine(StraightLine straightLine){
