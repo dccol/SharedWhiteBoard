@@ -29,6 +29,8 @@ public class ManagerWhiteBoardFrame extends JFrame {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
     }
+
+    private JMenuBar menuBar;
     private WhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
     private UserPanel userPanel;
@@ -85,9 +87,54 @@ public class ManagerWhiteBoardFrame extends JFrame {
         contentPane.add(userPanel, BorderLayout.EAST);
         contentPane.add(chatBoxPanel, BorderLayout.SOUTH);
 
+        menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem open = new JMenuItem("Open");
+        JMenuItem saveAs = new JMenuItem("Save as");
+        JMenuItem save = new JMenuItem("Save ");
+        JMenuItem new_ = new JMenuItem("New");
+        JMenuItem close = new JMenuItem("Close");
+
+        open.addActionListener(arg0 ->{
+            // Load an existing board
+        });
+
+        saveAs.addActionListener(arg0 -> {
+            // Save as
+        });
+
+        save.addActionListener(arg0 -> {
+            // Save
+        });
+
+        new_.addActionListener(arg0 -> {
+            // Create New
+        });
+
+        close.addActionListener(arg0 -> {
+            // Close WhiteBoard
+            try {
+                remoteWhiteBoard.removeUser(user);
+            } catch (RemoteException remoteException) {
+                JOptionPane.showMessageDialog(null, "Connection lost");
+            }
+            System.exit(0);
+        });
+
+        fileMenu.add(new_);
+        fileMenu.add(open);
+        fileMenu.add(saveAs);
+        fileMenu.add(save);
+        fileMenu.add(close);
+
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+
         this.pack();
         this.setLocationRelativeTo(null);
         this.setTitle("Manager WhiteBoard GUI");
+
+
 
         // UserPanel
         JLabel userLabel = new JLabel("Online Users");
@@ -466,6 +513,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             }
         });
 
+        // Save/Open/New
 
         this.addWindowListener(new WindowAdapter()
         {
@@ -479,6 +527,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 }
                 System.out.println("Closed");
                 e.getWindow().dispose();
+                System.exit(0);
             }
         });
     }
