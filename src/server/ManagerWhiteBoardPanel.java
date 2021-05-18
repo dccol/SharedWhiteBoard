@@ -1,4 +1,4 @@
-package client;
+package server;
 
 import Shapes.*;
 import Shapes.Rectangle;
@@ -9,12 +9,12 @@ import java.awt.*;
 import java.awt.Shape;
 import java.rmi.RemoteException;
 
-public class WhiteBoardPanel extends JPanel {
+public class ManagerWhiteBoardPanel extends JPanel {
 
     private IRemoteWhiteBoard remoteWhiteBoard;
     //private ArrayList<Line> lines;
 
-    public WhiteBoardPanel(IRemoteWhiteBoard remoteWhiteBoard){
+    public ManagerWhiteBoardPanel(IRemoteWhiteBoard remoteWhiteBoard){
 
         this.setPreferredSize(new Dimension(1500,800));
         this.setBackground(Color.white);

@@ -1,7 +1,8 @@
-package client;
+package server;
 
 import Shapes.*;
 import Shapes.Rectangle;
+import client.User;
 import remote.IRemoteWhiteBoard;
 
 import java.awt.*;
@@ -10,16 +11,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
+
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 
-public class WhiteBoardFrame extends JFrame {
+public class ManagerWhiteBoardFrame extends JFrame {
 
     private IRemoteWhiteBoard remoteWhiteBoard;
 
@@ -30,7 +29,7 @@ public class WhiteBoardFrame extends JFrame {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         }
     }
-    private WhiteBoardPanel whiteBoardPanel;
+    private ManagerWhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
     private UserPanel userPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
@@ -63,7 +62,7 @@ public class WhiteBoardFrame extends JFrame {
         }
     }
 
-    public WhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard, User user){
+    public ManagerWhiteBoardFrame(IRemoteWhiteBoard remoteWhiteBoard, User user){
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -73,7 +72,7 @@ public class WhiteBoardFrame extends JFrame {
         Container contentPane = this.getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        whiteBoardPanel = new WhiteBoardPanel(remoteWhiteBoard);
+        whiteBoardPanel = new ManagerWhiteBoardPanel(remoteWhiteBoard);
         controlPanel = new JPanel();
         userPanel = new UserPanel();
 
@@ -83,9 +82,7 @@ public class WhiteBoardFrame extends JFrame {
 
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setTitle("WhiteBoard GUI");
-
-
+        this.setTitle("Manager WhiteBoard GUI");
 
         // UserPanel
         JLabel userLabel = new JLabel("Online Users");
@@ -110,15 +107,21 @@ public class WhiteBoardFrame extends JFrame {
         timerUsers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 try {
-                    // If connection has been lost stop the timer
                     ArrayList<User> users = remoteWhiteBoard.getUsers();
                     userTextArea.setText(null);
                     for(User user1 : users){
+                        // Update user permissions
+                        if(user1.getStatus() != 1){
+                            int input = JOptionPane.showConfirmDialog(contentPane, "Accept User: "+ user1.getUsername() + "?");
+                            if(input == 0) {
+                                remoteWhiteBoard.updateUserStatus(user1);
+                            }
+                        }
                         userTextArea.append(user1.getUsername() + "\n");
                     }
                 } catch (RemoteException e) {
                     timerUsers.stop();
-                    JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Click here to exit.");
+                    JOptionPane.showMessageDialog(contentPane, "Connection to the server has been lost. Click here to exit.");
                     System.exit(0);
                 }
             }
@@ -256,6 +259,7 @@ public class WhiteBoardFrame extends JFrame {
                     points.add(e.getPoint());
                     // Update the lines points locally
                     line.setPoints(points);
+                    System.out.println(line.getPoints().size());
 
                     // Push update to WhiteBoardAccess
                     remoteWhiteBoard.updateLine(id, line);

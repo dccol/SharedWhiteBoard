@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import Shapes.*;
+import client.User;
 import remote.IRemoteWhiteBoard;
 
 /**
@@ -21,17 +22,26 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public ArrayList<String> getUsers() throws RemoteException {
+    public ArrayList<User> getUsers() throws RemoteException {
         return whiteBoardAccess.getUsers();
     }
 
     @Override
-    public int addUser(String user) throws RemoteException {
+    public User getUserByUsername(User user) throws RemoteException {
+        return whiteBoardAccess.getUserByUsername(user);
+    }
+
+    @Override
+    public int addUser(User user) throws RemoteException {
         return whiteBoardAccess.addUser(user);
     }
 
     @Override
-    public int removeUser(String user) throws RemoteException {
+    public int updateUserStatus(User user) throws RemoteException {
+        return whiteBoardAccess.updateUserStatus(user);
+    }
+    @Override
+    public int removeUser(User user) throws RemoteException {
         return whiteBoardAccess.removeUser(user);
     }
 

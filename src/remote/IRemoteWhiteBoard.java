@@ -1,6 +1,7 @@
 package remote;
 
 import Shapes.*;
+import client.User;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 public interface IRemoteWhiteBoard extends Remote {
 
     // User
-    public ArrayList<String> getUsers() throws RemoteException;
-    public int addUser(String user) throws RemoteException;
-    public int removeUser(String user) throws RemoteException;
+    public ArrayList<User> getUsers() throws RemoteException;
+    public User getUserByUsername(User user) throws  RemoteException;
+    public int addUser(User user) throws RemoteException;
+    public int updateUserStatus(User user) throws RemoteException;
+    public int removeUser(User user) throws RemoteException;
 
     // FreeLines
     public ArrayList<FreeLine> getLines() throws RemoteException;

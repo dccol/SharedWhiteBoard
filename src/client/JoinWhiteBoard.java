@@ -18,20 +18,24 @@ public class JoinWhiteBoard {
 
             // Launch Login Dialog
             String username = JOptionPane.showInputDialog("Username");
-
+            User newUser = new User(username, 0);
             // Check if user available
-            int result = remoteWhiteBoard.addUser(username);
+            int result = remoteWhiteBoard.addUser(newUser);
             while(result != 1){
                 if(result == 0) {
-                    username = JOptionPane.showInputDialog("Username Taken. Enter a new Username");
+                    newUser.setUsername(JOptionPane.showInputDialog("Username Taken. Enter a new Username"));
                 }
                 else if(result == 2){
-                    username = JOptionPane.showInputDialog("Invalid Username");
+                    newUser.setUsername(username = JOptionPane.showInputDialog("Invalid Username"));
                 }
-                result = remoteWhiteBoard.addUser(username);
+                result = remoteWhiteBoard.addUser(newUser);
+            }
+            // Wait for manager to accept user
+            while(newUser.getStatus()!=1){
+                newUser = remoteWhiteBoard.getUserByUsername(newUser);
             }
             // Launch GUI
-            WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard, username);
+            WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard, newUser);
             frame.run();
 
 
