@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import Shapes.*;
+import client.Chat;
 import client.User;
 import remote.IRemoteWhiteBoard;
 
@@ -73,6 +74,10 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
+    public ArrayList<Chat> getChat() throws RemoteException {
+        return whiteBoardAccess.getChatBox();
+    }
+    @Override
     public int addLine(FreeLine line) throws RemoteException {
         whiteBoardAccess.addLine(line);
         return whiteBoardAccess.getLines().size()-1;
@@ -122,6 +127,11 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public int deleteLine() throws RemoteException {
         return 0;
+    }
+
+    @Override
+    public int addChat(Chat chat) throws RemoteException{
+        return whiteBoardAccess.addChat(chat);
     }
 
 }

@@ -29,9 +29,11 @@ public class WhiteBoardFrame extends JFrame {
     private WhiteBoardPanel whiteBoardPanel;
     private JPanel controlPanel;
     private UserPanel userPanel;
+    private JPanel chatBoxPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
     private JSlider strokeSizeSlider;
     private JList<String> userList;
+    private JTextArea chatWindow;
 
     private String currentShape = "FreeLine";
     private Color currentColour;
@@ -72,10 +74,12 @@ public class WhiteBoardFrame extends JFrame {
         whiteBoardPanel = new WhiteBoardPanel(remoteWhiteBoard);
         controlPanel = new JPanel();
         userPanel = new UserPanel();
+        chatBoxPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         contentPane.add(whiteBoardPanel, BorderLayout.CENTER);
         contentPane.add(controlPanel, BorderLayout.NORTH);
         contentPane.add(userPanel, BorderLayout.EAST);
+        contentPane.add(chatBoxPanel, BorderLayout.SOUTH);
 
         this.pack();
         this.setLocationRelativeTo(null);
@@ -136,7 +140,18 @@ public class WhiteBoardFrame extends JFrame {
         Timer timer = new Timer(300, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 whiteBoardPanel.repaint();
-                // Check if still
+
+                // ChatBox
+                try {
+                    ArrayList<Chat> chatList = remoteWhiteBoard.getChat();
+                    chatWindow.setText(null);
+                    for(Chat chat : chatList){
+                        chatWindow.append(chat.getTimeSent()+ " " + chat.getUser().getUsername() + ": " + chat.getMessage() + "\n");
+                    }
+
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         });
         timer.setRepeats(true);
@@ -377,6 +392,33 @@ public class WhiteBoardFrame extends JFrame {
             }
         });
 
+
+        // ChatBox Panel
+        chatWindow = new JTextArea();
+        chatWindow.setPreferredSize(new Dimension(500, 100));
+        chatBoxPanel.add(chatWindow);
+        JScrollPane scrollPaneChatBox = new JScrollPane( chatWindow );
+//        scrollPaneChatBox.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneChatBox.setPreferredSize(new Dimension(500, 100));
+        chatBoxPanel.add(scrollPaneChatBox);
+        chatWindow.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
+
+        JTextField inputField = new JTextField();
+        inputField.setPreferredSize(new Dimension(300, 20));
+        chatBoxPanel.add(inputField);
+
+        JButton sendBtn = new JButton("Send");
+        chatBoxPanel.add(sendBtn);
+        sendBtn.addActionListener(arg0 -> {
+            // Send chat to server
+            try {
+                Chat chat = new Chat(user, inputField.getText(), java.time.LocalTime.now());
+                inputField.setText(null);
+                int result = remoteWhiteBoard.addChat(chat);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
         this.addWindowListener(new WindowAdapter()
         {
             @Override

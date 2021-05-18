@@ -1,6 +1,7 @@
 package remote;
 
 import Shapes.*;
+import client.Chat;
 import client.User;
 
 import java.awt.geom.Ellipse2D;
@@ -47,4 +48,8 @@ public interface IRemoteWhiteBoard extends Remote {
 
     // Clear
     public void clear() throws RemoteException;
+
+    // Chatbox
+    public ArrayList<Chat> getChat() throws RemoteException;
+    public int addChat(Chat chat) throws RemoteException;
 }

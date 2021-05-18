@@ -1,6 +1,7 @@
 package server;
 
 import Shapes.*;
+import client.Chat;
 import client.User;
 
 import java.awt.geom.*;
@@ -19,6 +20,9 @@ public class WhiteBoardAccess {
     private ArrayList<SerializableCircle> circles;
     private ArrayList<Text> text;
 
+    // Chatbox
+    private ArrayList<Chat> chatBox;
+
     // Users
     private ArrayList<User> users;
 
@@ -30,6 +34,7 @@ public class WhiteBoardAccess {
         this.circles = new ArrayList<>();
         this.text = new ArrayList<>();
         this.users = new ArrayList<>();
+        this.chatBox = new ArrayList<>();
     }
 
     // Operations on the whiteboard
@@ -62,6 +67,10 @@ public class WhiteBoardAccess {
 
     public ArrayList<Text> getText() {
         return text;
+    }
+
+    public ArrayList<Chat> getChatBox(){
+        return chatBox;
     }
 
     /** TO DO SYNCHRONOUS IN NEEDED **/
@@ -136,4 +145,10 @@ public class WhiteBoardAccess {
         this.circles = new ArrayList<>();
         this.text = new ArrayList<>();
     }
+
+    public int addChat(Chat chat){
+        this.chatBox.add(chat);
+        return 1;
+    }
 }
+
