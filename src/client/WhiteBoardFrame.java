@@ -10,13 +10,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 
 
 public class WhiteBoardFrame extends JFrame {
@@ -35,14 +31,14 @@ public class WhiteBoardFrame extends JFrame {
     private UserPanel userPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn;
     private JSlider strokeSizeSlider;
-    private JTextArea userTextArea;
+    private JList<String> userList;
 
     private String currentShape = "FreeLine";
     private Color currentColour;
     private int currentStrokeSize;
 
     // Distributed by WhiteBoardAccess on line insertion
-    int id = 0;
+    int lineID = 0;
 
     // Default starting line
     FreeLine line = new FreeLine(new ArrayList<Point>(), Color.black, 3, 0);
@@ -89,18 +85,20 @@ public class WhiteBoardFrame extends JFrame {
 
         // UserPanel
         JLabel userLabel = new JLabel("Online Users");
+        userLabel.setFont(userLabel.getFont().deriveFont(20f));
         userLabel.setHorizontalAlignment(SwingConstants.LEFT);
         userLabel.setAlignmentX( JLabel.LEFT_ALIGNMENT);
         userPanel.add(userLabel);
 
-        userTextArea = new JTextArea();
-        userTextArea.setFont(userTextArea.getFont().deriveFont(20f));
-        userTextArea.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
-        userPanel.add(userTextArea);
+        DefaultListModel<String> model = new DefaultListModel<>();
+        userList = new JList<String>(model);
+        userList.setFont(userList.getFont().deriveFont(16f));
+        userList.setAlignmentX(JList.LEFT_ALIGNMENT);
+        userPanel.add(userList);
         try {
             ArrayList<User> users = remoteWhiteBoard.getUsers();
             for(User user1 : users){
-                userTextArea.append(user1.getUsername() + "\n");
+                model.addElement(user1.getUsername());
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -112,13 +110,13 @@ public class WhiteBoardFrame extends JFrame {
                 try {
                     // If connection has been lost stop the timer
                     ArrayList<User> users = remoteWhiteBoard.getUsers();
-                    userTextArea.setText(null);
+                    model.clear();
                     int authorized = 0;
                     for(User user1 : users){
                         if(user1.getUsername().equals(user.getUsername())){
                             authorized = 1;
                         }
-                        userTextArea.append(user1.getUsername() + "\n");
+                        model.addElement(user1.getUsername());
                     }
                     // If the user is no longer in the list of users. Inform them they have been banned and exit
                     if(authorized == 0){
@@ -159,7 +157,7 @@ public class WhiteBoardFrame extends JFrame {
                             line.setPoints(points);
 
                             // Push new line to WhiteBoardAccess
-                            id = remoteWhiteBoard.addLine(line);
+                            lineID = remoteWhiteBoard.addLine(line);
                             whiteBoardPanel.repaint();
                             break;
                         case "StraightLine":
@@ -270,7 +268,7 @@ public class WhiteBoardFrame extends JFrame {
                     line.setPoints(points);
 
                     // Push update to WhiteBoardAccess
-                    remoteWhiteBoard.updateLine(id, line);
+                    remoteWhiteBoard.updateLine(lineID, line);
 
                     whiteBoardPanel.repaint();
 

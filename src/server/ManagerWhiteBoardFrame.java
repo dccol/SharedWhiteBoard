@@ -16,8 +16,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import static javax.swing.JOptionPane.YES_NO_OPTION;
-
 
 public class ManagerWhiteBoardFrame extends JFrame {
 
@@ -35,14 +33,14 @@ public class ManagerWhiteBoardFrame extends JFrame {
     private UserPanel userPanel;
     private JButton colourBtn, freelineBtn, straightlineBtn, rectangleBtn, circleBtn, ovalBtn, textBtn, banBtn, clearBtn;
     private JSlider strokeSizeSlider;
-    private JTextArea userTextArea;
+    private JList<String> userList;
 
     private String currentShape = "FreeLine";
     private Color currentColour;
     private int currentStrokeSize;
 
     // Distributed by WhiteBoardAccess on line insertion
-    int id = 0;
+    int lineID = 0;
 
     // Default starting line
     FreeLine line = new FreeLine(new ArrayList<Point>(), Color.black, 3, 0);
@@ -87,25 +85,34 @@ public class ManagerWhiteBoardFrame extends JFrame {
 
         // UserPanel
         JLabel userLabel = new JLabel("Online Users");
+        userLabel.setFont(userLabel.getFont().deriveFont(20f));
         userLabel.setHorizontalAlignment(SwingConstants.LEFT);
         userLabel.setAlignmentX( JLabel.LEFT_ALIGNMENT);
         userPanel.add(userLabel);
 
-        userTextArea = new JTextArea();
-        userTextArea.setFont(userTextArea.getFont().deriveFont(20f));
-        userTextArea.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
-        userPanel.add(userTextArea);
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        userList = new JList<String>(model);
+        userList.setFont(userList.getFont().deriveFont(16f));
+        userList.setAlignmentX(JList.LEFT_ALIGNMENT);
+        userPanel.add(userList);
         try {
             ArrayList<User> users = remoteWhiteBoard.getUsers();
             for(User user1 : users){
-                userTextArea.append(user1.getUsername() + "\n");
+                model.addElement(user1.getUsername());
             }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
+        JSeparator userSep = new JSeparator();
+        userSep.setOrientation(SwingConstants.HORIZONTAL);
+        userSep.setPreferredSize(new Dimension(50, 10));
+        userPanel.add(userSep);
+
         banBtn = new JButton("Manage users");
         userPanel.add(banBtn);
+        banBtn.setAlignmentY(JButton.SOUTH);
         banBtn.addActionListener(arg0 -> {
             try {
                 ArrayList<User> users = remoteWhiteBoard.getUsers();
@@ -133,7 +140,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             public void actionPerformed(ActionEvent evt) {
                 try {
                     ArrayList<User> users = remoteWhiteBoard.getUsers();
-                    userTextArea.setText(null);
+                    model.clear();
                     for(User user1 : users){
                         // Update user permissions
                         if(user1.getStatus() != 1){
@@ -143,7 +150,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                                 System.out.println(result);
                             }
                         }
-                        userTextArea.append(user1.getUsername() + "\n");
+                        model.addElement(user1.getUsername());
                     }
                 } catch (RemoteException e) {
                     timerUsers.stop();
@@ -178,7 +185,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                             line.setPoints(points);
 
                             // Push new line to WhiteBoardAccess
-                            id = remoteWhiteBoard.addLine(line);
+                            lineID = remoteWhiteBoard.addLine(line);
                             whiteBoardPanel.repaint();
                             break;
                         case "StraightLine":
@@ -290,7 +297,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                     System.out.println(line.getPoints().size());
 
                     // Push update to WhiteBoardAccess
-                    remoteWhiteBoard.updateLine(id, line);
+                    remoteWhiteBoard.updateLine(lineID, line);
 
                     whiteBoardPanel.repaint();
 
