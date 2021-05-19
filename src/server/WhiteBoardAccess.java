@@ -5,6 +5,7 @@ import client.Chat;
 import client.User;
 
 import java.awt.geom.*;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -12,6 +13,8 @@ import java.util.ArrayList;
  */
 public class WhiteBoardAccess {
 
+    // Filename
+    private String filepath;
     // WhiteBoard data structure
     private ArrayList<FreeLine> lines;
     private ArrayList<StraightLine> straightlines;
@@ -35,6 +38,8 @@ public class WhiteBoardAccess {
         this.text = new ArrayList<>();
         this.users = new ArrayList<>();
         this.chatBox = new ArrayList<>();
+
+        this.filepath = null;
     }
 
     // Operations on the whiteboard
@@ -145,6 +150,82 @@ public class WhiteBoardAccess {
     public int addChat(Chat chat){
         this.chatBox.add(chat);
         return 1;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    /** Serialize State **/
+    public void serializeState(String path){
+        try{
+            FileOutputStream fileOut = new FileOutputStream(path + ".ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(lines);
+            out.flush();
+//            out.writeObject(straightlines);
+//            out.flush();
+//            out.writeObject(rectangles);
+//            out.flush();
+//            out.writeObject(ovals);
+//            out.flush();
+//            out.writeObject(circles);
+//            out.flush();
+//            out.writeObject(text);
+//            out.flush();
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in " + path);
+            filepath = path;
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+    public void serializeState(){
+        try{
+            FileOutputStream fileOut = new FileOutputStream(filepath);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(lines);
+            out.flush();
+//            out.writeObject(straightlines);
+//            out.flush();
+//            out.writeObject(rectangles);
+//            out.flush();
+//            out.writeObject(ovals);
+//            out.flush();
+//            out.writeObject(circles);
+//            out.flush();
+//            out.writeObject(text);
+//            out.flush();
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in " + filepath);
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public void deserializeState(String path){
+        Object o = null;
+        try {
+            FileInputStream fileIn = new FileInputStream(path);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            o =  in.readObject();
+            in.close();
+            fileIn.close();
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(o);
+        ArrayList<FreeLine> lines = (ArrayList<FreeLine>) o;
+        System.out.println(lines);
+        this.lines = lines;
+        this.filepath = path;
     }
 }
 

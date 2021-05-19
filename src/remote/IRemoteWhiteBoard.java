@@ -52,4 +52,14 @@ public interface IRemoteWhiteBoard extends Remote {
     // Chatbox
     public ArrayList<Chat> getChat() throws RemoteException;
     public int addChat(Chat chat) throws RemoteException;
+
+    // Save
+    public void saveAs(String path) throws RemoteException;
+    public void save() throws RemoteException;
+
+    // Load
+    public void load(String path) throws RemoteException;
+
+    // New
+    public void newBoard() throws RemoteException;
 }

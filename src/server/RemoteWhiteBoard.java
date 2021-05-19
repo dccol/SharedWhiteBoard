@@ -134,4 +134,25 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
         return whiteBoardAccess.addChat(chat);
     }
 
+    @Override
+    public void saveAs(String path) throws RemoteException {
+        whiteBoardAccess.serializeState(path);
+    }
+    @Override
+    public void save() throws RemoteException{
+        whiteBoardAccess.serializeState();
+    }
+
+    @Override
+    public void load(String path) throws RemoteException {
+        whiteBoardAccess.reset();
+        whiteBoardAccess.deserializeState(path);
+    }
+
+    @Override
+    public void newBoard() throws RemoteException{
+        whiteBoardAccess.setFilepath(null);
+        whiteBoardAccess.reset();
+    }
+
 }

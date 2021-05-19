@@ -13,9 +13,11 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 public class ManagerWhiteBoardFrame extends JFrame {
@@ -23,6 +25,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
     private IRemoteWhiteBoard remoteWhiteBoard;
 
     private String username;
+    private String filename;
 
     class UserPanel extends JPanel{
         public UserPanel(){
@@ -73,6 +76,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
 
         this.remoteWhiteBoard = remoteWhiteBoard;
         this.username = username;
+        this.filename = null;
 
         Container contentPane = this.getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -97,18 +101,60 @@ public class ManagerWhiteBoardFrame extends JFrame {
 
         open.addActionListener(arg0 ->{
             // Load an existing board
+            JFileChooser chooser = new JFileChooser();
+            int returnVal = chooser.showOpenDialog(this);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                System.out.println("You chose to open this file: " +
+                        chooser.getSelectedFile().getAbsolutePath());
+                filename = chooser.getSelectedFile().getName();
+                this.setTitle(this.getTitle() + " " + filename);
+            }
+            try {
+                remoteWhiteBoard.load(chooser.getSelectedFile().getAbsolutePath());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         });
 
         saveAs.addActionListener(arg0 -> {
             // Save as
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+                filename = fileToSave.getName();
+                this.setTitle(this.getTitle() + " " + filename);
+                try {
+                    remoteWhiteBoard.saveAs(fileToSave.getAbsolutePath());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+            }
         });
 
         save.addActionListener(arg0 -> {
             // Save
+            try {
+                remoteWhiteBoard.save();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         });
 
         new_.addActionListener(arg0 -> {
             // Create New
+            try {
+                remoteWhiteBoard.newBoard();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            filename = null;
+            this.setTitle("Manager WhiteBoard GUI");
         });
 
         close.addActionListener(arg0 -> {
@@ -359,7 +405,6 @@ public class ManagerWhiteBoardFrame extends JFrame {
                     points.add(e.getPoint());
                     // Update the lines points locally
                     line.setPoints(points);
-                    System.out.println(line.getPoints().size());
 
                     // Push update to WhiteBoardAccess
                     remoteWhiteBoard.updateLine(lineID, line);
