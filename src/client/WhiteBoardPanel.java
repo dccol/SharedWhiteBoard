@@ -9,18 +9,16 @@ import java.awt.*;
 import java.awt.Shape;
 import java.rmi.RemoteException;
 
+/** Manage canvas draw operations */
 public class WhiteBoardPanel extends JPanel {
 
     private IRemoteWhiteBoard remoteWhiteBoard;
-    //private ArrayList<Line> lines;
 
     public WhiteBoardPanel(IRemoteWhiteBoard remoteWhiteBoard){
 
         this.setPreferredSize(new Dimension(1500,800));
         this.setBackground(Color.white);
         this.remoteWhiteBoard = remoteWhiteBoard;
-        //lines = new ArrayList<>();
-
     }
 
     // Draw WhiteBoardState
@@ -85,12 +83,13 @@ public class WhiteBoardPanel extends JPanel {
             }
             // Text
             for (Text text : remoteWhiteBoard.getText()) {
-                /** TO DO: Font size, bold, underline **/
+                /** TO DO OPTIONAL: Font size, bold, underline **/
                 g2d.drawString(text.getText(), text.getX(), text.getY());
             }
 
-        }catch(RemoteException e){
-            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+        }
+        catch(RemoteException e){
+            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
         }
 
     }

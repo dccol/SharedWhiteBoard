@@ -3,6 +3,7 @@ package client;
 import java.io.Serializable;
 import java.time.LocalTime;
 
+/** Chatbox message abstraction **/
 public class Chat implements Serializable {
 
     private User user;

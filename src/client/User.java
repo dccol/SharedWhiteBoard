@@ -2,6 +2,7 @@ package client;
 
 import java.io.Serializable;
 
+/** Whiteboard user abstraction */
 public class User implements Serializable {
 
     private String username;

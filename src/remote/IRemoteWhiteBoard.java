@@ -12,6 +12,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/** Remote Interface */
 public interface IRemoteWhiteBoard extends Remote {
 
     // User

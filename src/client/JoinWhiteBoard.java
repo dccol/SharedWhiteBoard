@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/** Launch Client GUI */
 public class JoinWhiteBoard {
 
     private static String serverAddress;

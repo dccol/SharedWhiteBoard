@@ -11,6 +11,7 @@ import javax.swing.*;
 /**
  * Creates an instance of the RemoteWhiteBoard class and
  * publishes it in the rmiregistry
+ *  Launches manager GUI
  */
 public class CreateWhiteBoard {
 

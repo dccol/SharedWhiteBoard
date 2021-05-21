@@ -14,7 +14,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
 
-
+/** Manage Client GUI */
 public class WhiteBoardFrame extends JFrame {
 
     private IRemoteWhiteBoard remoteWhiteBoard;
@@ -56,8 +56,9 @@ public class WhiteBoardFrame extends JFrame {
     public void run() {
         try {
             this.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (Exception e) {
+            System.out.println("Unable to display Whiteboard GUI. Please restart and try again.");
         }
     }
 
@@ -85,8 +86,6 @@ public class WhiteBoardFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("WhiteBoard GUI");
 
-
-
         // UserPanel
         JLabel userLabel = new JLabel("Online Users");
         userLabel.setFont(userLabel.getFont().deriveFont(20f));
@@ -104,8 +103,9 @@ public class WhiteBoardFrame extends JFrame {
             for(User user1 : users){
                 model.addElement(user1.getUsername());
             }
-        } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+        }
+        catch (RemoteException e) {
+            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
         }
         // Refresh Listener
         Timer timerUsers = new Timer(5000, null);
@@ -127,7 +127,8 @@ public class WhiteBoardFrame extends JFrame {
                         JOptionPane.showMessageDialog(contentPane, "You have been banned. Goodbye :)");
                         System.exit(0);
                     }
-                } catch (RemoteException e) {
+                }
+                catch (RemoteException e) {
                     timerUsers.stop();
                 }
             }
@@ -149,7 +150,8 @@ public class WhiteBoardFrame extends JFrame {
                         chatWindow.append(chat.getTimeSent()+ " " + chat.getUser().getUsername() + ": " + chat.getMessage() + "\n");
                     }
 
-                } catch (RemoteException e) {
+                }
+                catch (RemoteException e) {
                     timer.stop();
                     JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Click here to exit.");
                     System.exit(0);
@@ -266,8 +268,9 @@ public class WhiteBoardFrame extends JFrame {
                             break;
                     }
 
-                }catch(RemoteException ex){
-                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+                }
+                catch(RemoteException ex){
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
                 }
             }
 
@@ -290,7 +293,7 @@ public class WhiteBoardFrame extends JFrame {
                     whiteBoardPanel.repaint();
 
                 }catch(RemoteException ex){
-                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
                 }
             }
 
@@ -377,15 +380,12 @@ public class WhiteBoardFrame extends JFrame {
         controlPanel.add(fillToggle);
         fillToggle.addItemListener(itemEvent ->
         {
-            // event is generated in button
             int state = itemEvent.getStateChange();
 
-            // if selected print selected in console
             if (state == ItemEvent.SELECTED) {
                 rectangle.setFill(1);
                 oval.setFill(1);
                 circle.setFill(1);
-
             }
             else {
                 rectangle.setFill(0);
@@ -393,7 +393,6 @@ public class WhiteBoardFrame extends JFrame {
                 circle.setFill(0);
             }
         });
-
 
         // ChatBox Panel
         chatWindow = new JTextArea();
@@ -422,8 +421,9 @@ public class WhiteBoardFrame extends JFrame {
                 Chat chat = new Chat(user, inputField.getText(), java.time.LocalTime.now());
                 inputField.setText(null);
                 int result = remoteWhiteBoard.addChat(chat);
-            } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+            }
+            catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
             }
         });
 
@@ -434,8 +434,9 @@ public class WhiteBoardFrame extends JFrame {
             {
                 try {
                     remoteWhiteBoard.removeUser(user);
-                } catch (RemoteException remoteException) {
-                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+                }
+                catch (RemoteException remoteException) {
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
                 }
                 System.out.println("Closed");
                 e.getWindow().dispose();

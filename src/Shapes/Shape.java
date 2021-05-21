@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/** Canvas elements a user can draw */
 public abstract class Shape implements Serializable {
 
     private Color colour;

@@ -18,9 +18,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-
+/** Manages manager GUI */
 public class ManagerWhiteBoardFrame extends JFrame {
 
     private IRemoteWhiteBoard remoteWhiteBoard;
@@ -67,7 +66,8 @@ public class ManagerWhiteBoardFrame extends JFrame {
         try {
             this.setVisible(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unable to display manager Whiteboard GUI. Please restart and try again.");
+            ;
         }
     }
 
@@ -119,7 +119,6 @@ public class ManagerWhiteBoardFrame extends JFrame {
             } catch (ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null,
                         "Error: Attempting to deserialize an invalid object. Please check that the selected file is correct and try again.");
-
             }
         });
 
@@ -143,9 +142,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 }
                 catch (IOException e){
                     JOptionPane.showMessageDialog(null, "Error: Unable to save the file. Please try again.");
-
                 }
-
             }
         });
 
@@ -160,7 +157,6 @@ public class ManagerWhiteBoardFrame extends JFrame {
             catch(IOException e){
                 JOptionPane.showMessageDialog(null, "Error: The file was unable to be saved. Please try again.");
             }
-
         });
 
         new_.addActionListener(arg0 -> {
@@ -197,15 +193,12 @@ public class ManagerWhiteBoardFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Manager WhiteBoard GUI");
 
-
-
         // UserPanel
         JLabel userLabel = new JLabel("Online Users");
         userLabel.setFont(userLabel.getFont().deriveFont(20f));
         userLabel.setHorizontalAlignment(SwingConstants.LEFT);
         userLabel.setAlignmentX( JLabel.LEFT_ALIGNMENT);
         userPanel.add(userLabel);
-
 
         DefaultListModel<String> model = new DefaultListModel<>();
         userList = new JList<String>(model);
@@ -246,7 +239,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 remoteWhiteBoard.removeUser(kickUser);
             }
             catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
             }
         });
 
@@ -404,12 +397,11 @@ public class ManagerWhiteBoardFrame extends JFrame {
                             System.out.println("Error");
                             break;
                     }
-
-                }catch(RemoteException ex){
-                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+                }
+                catch(RemoteException ex){
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
                 }
             }
-
         });
 
         whiteBoardPanel.addMouseMotionListener(new MouseAdapter() {
@@ -428,12 +420,13 @@ public class ManagerWhiteBoardFrame extends JFrame {
 
                     whiteBoardPanel.repaint();
 
-                }catch(RemoteException ex){
+                }
+                catch(RemoteException ex){
                     JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
             }
-
         });
+
         whiteBoardPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e){
@@ -453,6 +446,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
         });
+
         // Button Listeners to select Colours
         colourBtn = new JButton("Select Colour");
         controlPanel.add(colourBtn);
@@ -526,15 +520,12 @@ public class ManagerWhiteBoardFrame extends JFrame {
         controlPanel.add(fillToggle);
         fillToggle.addItemListener(itemEvent ->
         {
-            // event is generated in button
             int state = itemEvent.getStateChange();
 
-            // if selected print selected in console
             if (state == ItemEvent.SELECTED) {
                 rectangle.setFill(1);
                 oval.setFill(1);
                 circle.setFill(1);
-
             }
             else {
                 rectangle.setFill(0);
@@ -570,12 +561,11 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 Chat chat = new Chat(user, inputField.getText(), java.time.LocalTime.now());
                 inputField.setText(null);
                 int result = remoteWhiteBoard.addChat(chat);
-            } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+            }
+            catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
             }
         });
-
-        // Save/Open/New
 
         this.addWindowListener(new WindowAdapter()
         {
@@ -584,8 +574,9 @@ public class ManagerWhiteBoardFrame extends JFrame {
             {
                 try {
                     remoteWhiteBoard.removeUser(user);
-                } catch (RemoteException remoteException) {
-                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+                }
+                catch (RemoteException remoteException) {
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
                 }
                 System.out.println("Closed");
                 e.getWindow().dispose();
