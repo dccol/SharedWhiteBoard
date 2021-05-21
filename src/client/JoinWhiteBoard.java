@@ -5,13 +5,28 @@ import remote.IRemoteWhiteBoard;
 import javax.swing.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-/** TO DO: Username, List of Users, Manager, **/
+
 public class JoinWhiteBoard {
+
+    private static String serverAddress;
     public static void main(String[] args) {
+
+        // Validate commandline args
+        if(args.length < 1){
+            System.out.println("Missing Arguments. Please Try Again");
+            System.exit(0);
+
+        }
+        else if(args.length > 1){
+            System.out.println("Too many Arguments. Please Try Again");
+            System.exit(0);
+        }
+
+        serverAddress = args[0];
 
         try {
             //Connect to the rmiregistry that is running on localhost
-            Registry registry = LocateRegistry.getRegistry("localhost");
+            Registry registry = LocateRegistry.getRegistry(serverAddress);
 
             //Retrieve the stub/proxy for the remote math object from the registry
             IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
@@ -40,7 +55,7 @@ public class JoinWhiteBoard {
 
 
         }catch(Exception e) {
-            e.printStackTrace();
+            System.out.println("Error: Unable to connect to RMI server");
         }
 
     }

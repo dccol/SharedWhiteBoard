@@ -112,7 +112,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             try {
                 remoteWhiteBoard.load(chooser.getSelectedFile().getAbsolutePath());
             } catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error: Connection to the server has been lost");
             }
         });
 
@@ -131,7 +131,8 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 try {
                     remoteWhiteBoard.saveAs(fileToSave.getAbsolutePath());
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error: Connection to the server has been lost");
+
                 }
 
             }
@@ -142,7 +143,8 @@ public class ManagerWhiteBoardFrame extends JFrame {
             try {
                 remoteWhiteBoard.save();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
+
             }
         });
 
@@ -151,7 +153,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             try {
                 remoteWhiteBoard.newBoard();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
             filename = null;
             this.setTitle("Manager WhiteBoard GUI");
@@ -162,7 +164,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             try {
                 remoteWhiteBoard.removeUser(user);
             } catch (RemoteException remoteException) {
-                JOptionPane.showMessageDialog(null, "Connection lost");
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
             System.exit(0);
         });
@@ -201,7 +203,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 model.addElement(user1.getUsername());
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
         }
 
         JSeparator userSep = new JSeparator();
@@ -229,7 +231,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 remoteWhiteBoard.removeUser(kickUser);
             }
             catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
         });
 
@@ -253,7 +255,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                     }
                 } catch (RemoteException e) {
                     timerUsers.stop();
-                    JOptionPane.showMessageDialog(contentPane, "Connection to the server has been lost. Click here to exit.");
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost. Click here to exit.");
                     System.exit(0);
                 }
             }
@@ -274,7 +276,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                     }
 
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
             }
         });
@@ -389,7 +391,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                     }
 
                 }catch(RemoteException ex){
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
             }
 
@@ -412,7 +414,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                     whiteBoardPanel.repaint();
 
                 }catch(RemoteException ex){
-                    System.out.println("Exception");
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
             }
 
@@ -433,7 +435,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             try {
                 remoteWhiteBoard.clear();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
         });
         // Button Listeners to select Colours
@@ -554,7 +556,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 inputField.setText(null);
                 int result = remoteWhiteBoard.addChat(chat);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
         });
 
@@ -568,7 +570,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 try {
                     remoteWhiteBoard.removeUser(user);
                 } catch (RemoteException remoteException) {
-//                    JOptionPane.showMessageDialog(contentPane, "Lost Connection");
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
                 System.out.println("Closed");
                 e.getWindow().dispose();

@@ -105,7 +105,7 @@ public class WhiteBoardFrame extends JFrame {
                 model.addElement(user1.getUsername());
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
         }
         // Refresh Listener
         Timer timerUsers = new Timer(5000, null);
@@ -129,8 +129,6 @@ public class WhiteBoardFrame extends JFrame {
                     }
                 } catch (RemoteException e) {
                     timerUsers.stop();
-//                    JOptionPane.showMessageDialog(contentPane, "The Host has closed the room. Click here to exit.");
-//                    System.exit(0);
                 }
             }
         });
@@ -269,7 +267,7 @@ public class WhiteBoardFrame extends JFrame {
                     }
 
                 }catch(RemoteException ex){
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
             }
 
@@ -292,7 +290,7 @@ public class WhiteBoardFrame extends JFrame {
                     whiteBoardPanel.repaint();
 
                 }catch(RemoteException ex){
-                    System.out.println("Exception");
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
             }
 
@@ -425,7 +423,7 @@ public class WhiteBoardFrame extends JFrame {
                 inputField.setText(null);
                 int result = remoteWhiteBoard.addChat(chat);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
             }
         });
 
@@ -437,7 +435,7 @@ public class WhiteBoardFrame extends JFrame {
                 try {
                     remoteWhiteBoard.removeUser(user);
                 } catch (RemoteException remoteException) {
-//                    JOptionPane.showMessageDialog(contentPane, "Lost Connection");
+                    JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
                 }
                 System.out.println("Closed");
                 e.getWindow().dispose();

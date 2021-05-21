@@ -14,7 +14,21 @@ import javax.swing.*;
  */
 public class CreateWhiteBoard {
 
+    private static String serverAddress;
     public static void main(String[] args)  {
+
+        // Validate commandline args
+        if(args.length < 1){
+            System.out.println("Missing Arguments. Please Try Again");
+            System.exit(0);
+
+        }
+        else if(args.length > 1){
+            System.out.println("Too many Arguments. Please Try Again");
+            System.exit(0);
+        }
+
+        serverAddress = args[0];
 
         try {
 
@@ -24,7 +38,7 @@ public class CreateWhiteBoard {
             IRemoteWhiteBoard newRemoteWhiteBoard = new RemoteWhiteBoard(whiteBoardAccess);
 
             //Publish the remote object's stub in the registry under the name "WhiteBoard"
-            Registry registry = LocateRegistry.getRegistry("localhost");
+            Registry registry = LocateRegistry.getRegistry(serverAddress);
             registry.bind("WhiteBoard", newRemoteWhiteBoard);
 
             IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
@@ -42,7 +56,7 @@ public class CreateWhiteBoard {
             frame.run();
 
         } catch (Exception e) {
-            System.out.println("RMI not started");
+            System.out.println("Error: Unable to connect to rmiregistry");
         }
 
     }
