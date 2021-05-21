@@ -66,7 +66,7 @@ public class WhiteBoardFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.remoteWhiteBoard = remoteWhiteBoard;
-        this.username = username;
+        this.username = user.getUsername();
 
         Container contentPane = this.getContentPane();
         contentPane.setLayout(new BorderLayout());

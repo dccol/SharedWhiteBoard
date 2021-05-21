@@ -30,21 +30,13 @@ public class CreateWhiteBoard {
             IRemoteWhiteBoard remoteWhiteBoard = (IRemoteWhiteBoard) registry.lookup("WhiteBoard");
 
             System.out.println("WhiteBoard server ready");
+
             // Launch Login Dialog
             String username = JOptionPane.showInputDialog("Username");
             User manager = new User(username, 1);
 
-            // Check if user available
             int result = remoteWhiteBoard.addUser(manager);
-//            while(result != 1){
-//                if(result == 0) {
-//                    manager.setUsername(JOptionPane.showInputDialog("Username Taken. Enter a new Username"));
-//                }
-//                else if(result == 2){
-//                    manager.setUsername(username = JOptionPane.showInputDialog("Invalid Username"));
-//                }
-//                result = remoteWhiteBoard.addUser(manager);
-//            }
+
             // Launch GUI
             ManagerWhiteBoardFrame frame = new ManagerWhiteBoardFrame(remoteWhiteBoard, manager);
             frame.run();

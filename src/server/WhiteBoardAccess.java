@@ -43,10 +43,10 @@ public class WhiteBoardAccess {
     }
 
     // Operations on the whiteboard
-
     public ArrayList<User> getUsers(){
         return this.users;
     }
+
     public User getUserByUsername(User user){
         return this.users.stream().filter(elem -> elem.getUsername().equals(user.getUsername())).findFirst().orElse(null);
     }
@@ -78,39 +78,35 @@ public class WhiteBoardAccess {
         return chatBox;
     }
 
-    /** TO DO SYNCHRONOUS IN NEEDED **/
-    public void addLine(FreeLine newLine){
+    /** SYNCHRONOUS IF ALL USERS CAN PERFORM OPERATION, AND OPERATION CHANGES STATE **/
+    public synchronized void addLine(FreeLine newLine){
         this.lines.add(newLine);
     }
-    public void updateLine(int id, FreeLine line){
+    public synchronized void updateLine(int id, FreeLine line){
         this.lines.set(id, line);
     }
 
-    public void addStraightLine(StraightLine straightLine){
+    public synchronized void addStraightLine(StraightLine straightLine){
         this.straightlines.add(straightLine);
     }
 
-    public void addRectangle(Rectangle rectangle){
+    public synchronized void addRectangle(Rectangle rectangle){
         this.rectangles.add(rectangle);
     }
 
-    public void addOval(Oval oval){
+    public synchronized void addOval(Oval oval){
         this.ovals.add(oval);
     }
 
-    public void addCircle(SerializableCircle circle){
+    public synchronized void addCircle(SerializableCircle circle){
         this.circles.add(circle);
     }
 
-    public void addText(Text text){
+    public synchronized void addText(Text text){
         this.text.add(text);
     }
 
-    // Optional addition
-    public synchronized void deleteText(){
-
-    }
-    public int addUser(User user){
+    public synchronized int addUser(User user){
         if(users.contains(user)) {
             return 0;
         }
@@ -124,7 +120,7 @@ public class WhiteBoardAccess {
         return 1;
     }
 
-    public int updateUserStatus(User user){
+    public synchronized int updateUserStatus(User user){
         for(User user1 : users){
             if(user1.getUsername().equals(user.getUsername())){
                 user1.setStatus(1);
@@ -133,7 +129,7 @@ public class WhiteBoardAccess {
         return 1;
     }
 
-    public int removeUser(User user){
+    public synchronized int removeUser(User user){
         users.removeIf(user1 -> user1.getUsername().equals(user.getUsername()));
         return 1;
     }
@@ -147,7 +143,7 @@ public class WhiteBoardAccess {
         this.text = new ArrayList<>();
     }
 
-    public int addChat(Chat chat){
+    public synchronized int addChat(Chat chat){
         this.chatBox.add(chat);
         return 1;
     }
@@ -161,22 +157,14 @@ public class WhiteBoardAccess {
     }
 
     /** Serialize State **/
+    /** TO DO: Serialise all shapes not just lines **/
     public void serializeState(String path){
         try{
             FileOutputStream fileOut = new FileOutputStream(path + ".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(lines);
             out.flush();
-//            out.writeObject(straightlines);
-//            out.flush();
-//            out.writeObject(rectangles);
-//            out.flush();
-//            out.writeObject(ovals);
-//            out.flush();
-//            out.writeObject(circles);
-//            out.flush();
-//            out.writeObject(text);
-//            out.flush();
+
             out.close();
             fileOut.close();
             System.out.println("Serialized data is saved in " + path);
@@ -191,16 +179,6 @@ public class WhiteBoardAccess {
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(lines);
             out.flush();
-//            out.writeObject(straightlines);
-//            out.flush();
-//            out.writeObject(rectangles);
-//            out.flush();
-//            out.writeObject(ovals);
-//            out.flush();
-//            out.writeObject(circles);
-//            out.flush();
-//            out.writeObject(text);
-//            out.flush();
             out.close();
             fileOut.close();
             System.out.println("Serialized data is saved in " + filepath);

@@ -75,7 +75,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.remoteWhiteBoard = remoteWhiteBoard;
-        this.username = username;
+        this.username = user.getUsername();
         this.filename = null;
 
         Container contentPane = this.getContentPane();
