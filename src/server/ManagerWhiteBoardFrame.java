@@ -14,6 +14,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -112,7 +113,13 @@ public class ManagerWhiteBoardFrame extends JFrame {
             try {
                 remoteWhiteBoard.load(chooser.getSelectedFile().getAbsolutePath());
             } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(this, "Error: Connection to the server has been lost");
+                JOptionPane.showMessageDialog(this, "Error: Connection to the server has been lost.");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error: File unable to be opened. Please try again.");
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Error: Attempting to deserialize an invalid object. Please check that the selected file is correct and try again.");
+
             }
         });
 
@@ -130,8 +137,12 @@ public class ManagerWhiteBoardFrame extends JFrame {
                 this.setTitle(this.getTitle() + " " + filename);
                 try {
                     remoteWhiteBoard.saveAs(fileToSave.getAbsolutePath());
-                } catch (RemoteException e) {
-                    JOptionPane.showMessageDialog(this, "Error: Connection to the server has been lost");
+                }
+                catch (RemoteException e) {
+                    JOptionPane.showMessageDialog(this, "Error: Connection to the server has been lost.");
+                }
+                catch (IOException e){
+                    JOptionPane.showMessageDialog(null, "Error: Unable to save the file. Please try again.");
 
                 }
 
@@ -142,10 +153,14 @@ public class ManagerWhiteBoardFrame extends JFrame {
             // Save
             try {
                 remoteWhiteBoard.save();
-            } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost");
-
             }
+            catch (RemoteException e) {
+                JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
+            }
+            catch(IOException e){
+                JOptionPane.showMessageDialog(null, "Error: The file was unable to be saved. Please try again.");
+            }
+
         });
 
         new_.addActionListener(arg0 -> {

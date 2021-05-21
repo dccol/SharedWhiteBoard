@@ -2,6 +2,7 @@ package server;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import Shapes.*;
 import client.Chat;
 import client.User;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import remote.IRemoteWhiteBoard;
 
 /**
@@ -135,16 +137,16 @@ public class RemoteWhiteBoard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public void saveAs(String path) throws RemoteException {
+    public void saveAs(String path) throws RemoteException, IOException {
         whiteBoardAccess.serializeState(path);
     }
     @Override
-    public void save() throws RemoteException{
+    public void save() throws IOException {
         whiteBoardAccess.serializeState();
     }
 
     @Override
-    public void load(String path) throws RemoteException {
+    public void load(String path) throws RemoteException, IOException, ClassNotFoundException {
         whiteBoardAccess.reset();
         whiteBoardAccess.deserializeState(path);
     }

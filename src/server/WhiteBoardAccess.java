@@ -158,47 +158,40 @@ public class WhiteBoardAccess {
 
     /** Serialize State **/
     /** TO DO: Serialise all shapes not just lines **/
-    public void serializeState(String path){
-        try{
-            FileOutputStream fileOut = new FileOutputStream(path + ".ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(lines);
-            out.flush();
+    public void serializeState(String path) throws IOException {
 
-            out.close();
-            fileOut.close();
-            System.out.println("Serialized data is saved in " + path);
-            filepath = path;
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+        FileOutputStream fileOut = new FileOutputStream(path + ".ser");
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(lines);
+        out.flush();
+
+        out.close();
+        fileOut.close();
+        System.out.println("Serialized data is saved in " + path);
+        filepath = path;
+
     }
-    public void serializeState(){
-        try{
-            FileOutputStream fileOut = new FileOutputStream(filepath);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(lines);
-            out.flush();
-            out.close();
-            fileOut.close();
-            System.out.println("Serialized data is saved in " + filepath);
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+    public void serializeState() throws IOException{
+
+        FileOutputStream fileOut = new FileOutputStream(filepath);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(lines);
+        out.flush();
+        out.close();
+        fileOut.close();
+        System.out.println("Serialized data is saved in " + filepath);
+
     }
 
-    public void deserializeState(String path){
+    public void deserializeState(String path) throws IOException, ClassNotFoundException{
         Object o = null;
-        try {
-            FileInputStream fileIn = new FileInputStream(path);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            o =  in.readObject();
-            in.close();
-            fileIn.close();
-        }
-        catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        FileInputStream fileIn = new FileInputStream(path);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        o =  in.readObject();
+        in.close();
+        fileIn.close();
+
         System.out.println(o);
         ArrayList<FreeLine> lines = (ArrayList<FreeLine>) o;
         System.out.println(lines);

@@ -7,6 +7,7 @@ import client.User;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -54,11 +55,11 @@ public interface IRemoteWhiteBoard extends Remote {
     public int addChat(Chat chat) throws RemoteException;
 
     // Save
-    public void saveAs(String path) throws RemoteException;
-    public void save() throws RemoteException;
+    public void saveAs(String path) throws RemoteException, IOException;
+    public void save() throws IOException;
 
     // Load
-    public void load(String path) throws RemoteException;
+    public void load(String path) throws RemoteException, IOException, ClassNotFoundException;
 
     // New
     public void newBoard() throws RemoteException;
