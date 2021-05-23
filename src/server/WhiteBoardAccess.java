@@ -197,7 +197,7 @@ public class WhiteBoardAccess {
 
         //System.out.println(o);
         ArrayList<FreeLine> lines = (ArrayList<FreeLine>) o;
-        System.out.println(lines);
+        //System.out.println(lines);
         this.lines = lines;
         this.filepath = path;
     }
