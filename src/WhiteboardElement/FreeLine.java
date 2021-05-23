@@ -1,4 +1,8 @@
-package Shapes;
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
+package WhiteboardElement;
 
 import java.awt.*;
 import java.util.ArrayList;

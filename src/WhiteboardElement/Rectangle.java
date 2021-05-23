@@ -1,8 +1,11 @@
-package Shapes;
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
+package WhiteboardElement;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 public class Rectangle extends Shape{
 

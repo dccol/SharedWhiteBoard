@@ -1,3 +1,7 @@
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
 package client;
 
 import remote.IRemoteWhiteBoard;
@@ -34,6 +38,11 @@ public class JoinWhiteBoard {
 
             // Launch Login Dialog
             String username = JOptionPane.showInputDialog("Username");
+
+            // If the user does not enter a username exit
+            if(username == null){
+                System.exit(0);
+            }
             User newUser = new User(username, 0);
             // Check if user available
             int result = remoteWhiteBoard.addUser(newUser);
@@ -49,6 +58,11 @@ public class JoinWhiteBoard {
             // Wait for manager to accept user
             while(newUser.getStatus() != 1){
                 newUser = remoteWhiteBoard.getUserByUsername(newUser);
+                if(newUser == null){
+                    // User has been rejected, exit
+                    JOptionPane.showMessageDialog(null, "Sorry the host has rejected your request to join. :(");
+                    System.exit(0);
+                }
             }
             // Launch GUI
             WhiteBoardFrame frame = new WhiteBoardFrame(remoteWhiteBoard, newUser);

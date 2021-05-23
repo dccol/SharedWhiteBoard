@@ -1,12 +1,15 @@
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
 package client;
 
-import Shapes.*;
-import Shapes.Rectangle;
+import WhiteboardElement.*;
+import WhiteboardElement.Rectangle;
 import remote.IRemoteWhiteBoard;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Shape;
 import java.rmi.RemoteException;
 
 /** Manage canvas draw operations */

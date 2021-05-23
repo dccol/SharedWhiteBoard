@@ -1,7 +1,11 @@
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
 package server;
 
-import Shapes.*;
-import Shapes.Rectangle;
+import WhiteboardElement.*;
+import WhiteboardElement.Rectangle;
 import client.Chat;
 import client.User;
 import client.WhiteBoardPanel;
@@ -256,6 +260,9 @@ public class ManagerWhiteBoardFrame extends JFrame {
                             int input = JOptionPane.showConfirmDialog(contentPane, "Accept User: "+ user1.getUsername() + "?");
                             if(input == 0) {
                                 int result = remoteWhiteBoard.updateUserStatus(user1);
+                            }
+                            if(input == 1){
+                                int result = remoteWhiteBoard.removeUser(user1);
                             }
                         }
                         model.addElement(user1.getUsername());

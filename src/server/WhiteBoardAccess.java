@@ -1,10 +1,13 @@
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
 package server;
 
-import Shapes.*;
+import WhiteboardElement.*;
 import client.Chat;
 import client.User;
 
-import java.awt.geom.*;
 import java.io.*;
 import java.util.ArrayList;
 

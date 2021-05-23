@@ -1,16 +1,17 @@
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
 package server;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-import Shapes.*;
+import WhiteboardElement.*;
 import client.Chat;
 import client.User;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import remote.IRemoteWhiteBoard;
 
 /**

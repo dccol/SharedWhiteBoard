@@ -1,12 +1,13 @@
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
 package remote;
 
-import Shapes.*;
+import WhiteboardElement.*;
 import client.Chat;
 import client.User;
 
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;

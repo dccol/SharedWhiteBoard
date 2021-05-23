@@ -1,8 +1,11 @@
-package Shapes;
+/** Author: Daniel Coleman 994887
+ *  Date: 23/05/2021
+ */
+
+package WhiteboardElement;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /** Canvas elements a user can draw */
 public abstract class Shape implements Serializable {
