@@ -89,7 +89,9 @@ public class WhiteBoardPanel extends JPanel {
 
         }
         catch(RemoteException e){
-            JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
+            // If connection has been lost, the parent frame will handle.
+            // Unable to throw since paintComponent is already defined
+            //JOptionPane.showMessageDialog(null, "Error: Connection to the server has been lost.");
         }
 
     }

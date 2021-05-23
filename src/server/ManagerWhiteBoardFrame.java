@@ -67,7 +67,7 @@ public class ManagerWhiteBoardFrame extends JFrame {
             this.setVisible(true);
         } catch (Exception e) {
             System.out.println("Unable to display manager Whiteboard GUI. Please restart and try again.");
-            ;
+
         }
     }
 
@@ -256,7 +256,6 @@ public class ManagerWhiteBoardFrame extends JFrame {
                             int input = JOptionPane.showConfirmDialog(contentPane, "Accept User: "+ user1.getUsername() + "?");
                             if(input == 0) {
                                 int result = remoteWhiteBoard.updateUserStatus(user1);
-                                System.out.println(result);
                             }
                         }
                         model.addElement(user1.getUsername());

@@ -192,7 +192,7 @@ public class WhiteBoardAccess {
         in.close();
         fileIn.close();
 
-        System.out.println(o);
+        //System.out.println(o);
         ArrayList<FreeLine> lines = (ArrayList<FreeLine>) o;
         System.out.println(lines);
         this.lines = lines;
